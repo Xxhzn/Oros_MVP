@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://bkw7su0im1mdg"]
+
+[ext_resource type="Script" uid="uid://bnm2n34rkrnd4" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://c7u5wwm3tbr7d" path="res://art/sprite/prototype_player.png" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://dtp2qltlrm05t" path="res://scrips/view/battle_character_template.gd" id="3_1bvp3"]
+
+[node name="Control" type="Control" unique_id=838882874]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+
+[node name="MenuPanel" type="Panel" parent="." unique_id=978495794]
+layout_mode = 0
+offset_left = 690.0
+offset_top = 183.0
+offset_right = 1391.0
+offset_bottom = 847.0
+
+[node name="MenuItems" type="Button" parent="MenuPanel" unique_id=1261065729]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="PlayerPos1" type="TextureRect" parent="." unique_id=1581612448]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 0
+offset_left = 166.0
+offset_top = 39.0
+offset_right = 466.0
+offset_bottom = 339.0
+texture = ExtResource("2_h2yge")
+stretch_mode = 5
+
+[node name="PlayerPos2" type="TextureRect" parent="." unique_id=89298601]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 0
+offset_left = 166.0
+offset_top = 348.0
+offset_right = 466.0
+offset_bottom = 648.0
+texture = ExtResource("2_h2yge")
+stretch_mode = 5
+
+[node name="PlayerPos3" type="TextureRect" parent="." unique_id=728896473]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 0
+offset_left = 168.0
+offset_top = 649.0
+offset_right = 468.0
+offset_bottom = 949.0
+texture = ExtResource("2_h2yge")
+stretch_mode = 5
+
+[node name="EnemyPos1" type="TextureRect" parent="." unique_id=760927059]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 0
+offset_left = 1518.0
+offset_top = 317.0
+offset_right = 1818.0
+offset_bottom = 617.0
+texture = ExtResource("2_h2yge")
+stretch_mode = 5
+
+[node name="EnemyPos2" type="TextureRect" parent="." unique_id=978560136]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 0
+offset_left = 1514.0
+offset_top = 34.0
+offset_right = 1814.0
+offset_bottom = 334.0
+texture = ExtResource("2_h2yge")
+stretch_mode = 5
+
+[node name="EnemyPos3" type="TextureRect" parent="." unique_id=291632859]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 0
+offset_left = 1527.0
+offset_top = 615.0
+offset_right = 1827.0
+offset_bottom = 915.0
+texture = ExtResource("2_h2yge")
+stretch_mode = 5
+
+[node name="BattleCharacterTemplate" type="TextureRect" parent="." unique_id=1667749325]
+texture_filter = 1
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 0
+offset_left = 266.0
+offset_top = 130.0
+offset_right = 466.0
+offset_bottom = 330.0
+texture = ExtResource("2_h2yge")
+stretch_mode = 5
+script = ExtResource("3_1bvp3")
+
+[node name="Arrow" type="ColorRect" parent="BattleCharacterTemplate" unique_id=1324238774]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 17.0
+offset_right = 112.0
+offset_bottom = 37.0
+rotation = 0.7853982
