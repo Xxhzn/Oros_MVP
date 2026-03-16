@@ -1,10 +1,17 @@
 
 class_name Battle_Character_Data
 
-var PlayerCharacterArr:Array[Battle_Character]
-var EnemyCharacterArr:Array[Battle_Character]
+var CharacterArr:Array[Battle_Character]
 var WeaponArr:Array[weapon]
 
+func _ready() -> void:
+	pass
+	
+func InitCharacter():
+	InitBattleCharacter()
+	InitWeapon()
+	InitAblities()
+		
 func InitBattleCharacter():
 	# 玩家
 	var playerAden = Battle_Character.new()
@@ -12,7 +19,8 @@ func InitBattleCharacter():
 	playerAden.hp = 100
 	playerAden.speed = 10
 	playerAden.display_name = "艾登"
-	PlayerCharacterArr.append(playerAden)
+	playerAden.control = true
+	CharacterArr.append(playerAden)
 	
 	# 敌人1
 	var enemyProtecter = Battle_Character.new()
@@ -21,7 +29,8 @@ func InitBattleCharacter():
 	enemyProtecter.dmg = 15
 	enemyProtecter.speed = 5
 	enemyProtecter.display_name = "铁壁卫士"
-	EnemyCharacterArr.append(enemyProtecter)
+	enemyProtecter.control = false
+	CharacterArr.append(enemyProtecter)
 	
 	# 敌人2
 	var enemyShooter = Battle_Character.new()
@@ -30,7 +39,8 @@ func InitBattleCharacter():
 	enemyShooter.dmg = 10
 	enemyShooter.speed = 8
 	enemyShooter.display_name = "帝国射手"
-	EnemyCharacterArr.append(enemyShooter)
+	enemyShooter.control = false
+	CharacterArr.append(enemyShooter)
 	
 	
 func InitWeapon():
@@ -75,9 +85,9 @@ func InitAblities():
 	
 	# 从 WeaponArr 中找到 weaponCies
 	var weaponCies = null
-	for weapon in WeaponArr:
-		if weapon.displayName == "西斯":
-			weaponCies = weapon
+	for weap in WeaponArr:
+		if weap.displayName == "西斯":
+			weaponCies = weap
 			break
 	
 	if weaponCies:
@@ -113,9 +123,9 @@ func InitAblities():
 	
 	# 从 WeaponArr 中找到 weaponYaden
 	var weaponYaden = null
-	for weapon in WeaponArr:
-		if weapon.displayName == "亚顿":
-			weaponYaden = weapon
+	for weap in WeaponArr:
+		if weap.displayName == "亚顿":
+			weaponYaden = weap
 			break
 	
 	if weaponYaden:

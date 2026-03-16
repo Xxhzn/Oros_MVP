@@ -9,11 +9,25 @@ class_name Main
 @onready var enemy_pos_2: TextureRect = $EnemyPos2
 @onready var enemy_pos_3: TextureRect = $EnemyPos3
 
-@onready var battle_character_template: BattleCharacter = $BattleCharacterTemplate
+@onready var battle_character_template: Battle_Character_View = $BattleCharacterTemplate
 
 var player_positions:Array[Control] = []
 var enemy_positions:Array[Control] = []
 
+var our_team_character:Array[Battle_Character_View] = []
+var enemy_team_character:Array[Battle_Character_View] = []
+
+
+enum States
+{
+	Prepare,
+	Loop,
+	Runaway,
+	Win,
+	Lose
+}
+
+var fsm:EasyFSM = EasyFSM.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,14 +42,23 @@ func _ready() -> void:
 	enemy_positions.append(enemy_pos_2)
 	enemy_positions.append(enemy_pos_3)
 	
-	_enter_battle()
+	fsm.add_state(BattlePrepareStates.new(States.Prepare,self,fsm))
+	fsm.add_state(BattleLoopStates.new(States.Loop,self,fsm))
+	fsm.add_state(BattleRunawayStates.new(States.Runaway,self,fsm))
+	fsm.add_state(BattleWinStates.new(States.Win,self,fsm))
+	fsm.add_state(BattleLoseStates.new(States.Lose,self,fsm))
+	
+	fsm.start_state(States.Prepare)
+	
 
-func _enter_battle():
-	#console_label.push_text("进入战斗")
-	_start_player_a()
-
-func _start_player_a():
-	#console_label.push_text( "轮到 主角A")
+func _start_player(battle_character:Battle_Character):
+	Global_Model.current_character = battle_character
+	Global_Model.current_character.onChange.emit()
+	
+	#var battle_characer_data:Battle_Character = Global_Model.BattleCharacterArr.CharacterArr.find_custom(
+		#func(c:Battle_Character): 
+			#return c.data == battle_character)
+			
 	_player_a_select_action()
 	
 func _player_a_select_action():
@@ -48,6 +71,11 @@ func _player_a_select_action():
 		
 func _player_a_select_target():
 	pass
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	fsm.process(delta)
+	
+func _exit_tree() -> void:
+	fsm.clear()
+	fsm = null

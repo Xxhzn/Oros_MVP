@@ -1,0 +1,24 @@
+[gd_resource type="Theme" format=3 uid="uid://fhx7mbq7kydo"]
+
+[ext_resource type="FontFile" uid="uid://biwv0uvvytqed" path="res://art/font/NotoSansSC-Regular.ttf" id="1_i7g1t"]
+[ext_resource type="StyleBox" uid="uid://r74k6sxg5ef3" path="res://art/theme/panel_style.tres" id="2_6damp"]
+
+[resource]
+Button/constants/outline_size = 24
+Button/font_sizes/font_size = 36
+Button/fonts/font = ExtResource("1_i7g1t")
+Button/styles/disabled = ExtResource("2_6damp")
+Button/styles/disabled_mirrored = ExtResource("2_6damp")
+Button/styles/focus = ExtResource("2_6damp")
+Button/styles/hover = ExtResource("2_6damp")
+Button/styles/hover_mirrored = ExtResource("2_6damp")
+Button/styles/hover_pressed = ExtResource("2_6damp")
+Button/styles/hover_pressed_mirrored = ExtResource("2_6damp")
+Button/styles/normal = ExtResource("2_6damp")
+Button/styles/normal_mirrored = ExtResource("2_6damp")
+Button/styles/pressed = ExtResource("2_6damp")
+Button/styles/pressed_mirrored = ExtResource("2_6damp")
+Panel/styles/panel = ExtResource("2_6damp")
+RichTextLabel/constants/outline_size = 16
+RichTextLabel/font_sizes/normal_font_size = 30
+RichTextLabel/fonts/normal_font = ExtResource("1_i7g1t")

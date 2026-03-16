@@ -1,0 +1,3 @@
+extends AbstractBattleState
+
+class_name BattleLoseStates

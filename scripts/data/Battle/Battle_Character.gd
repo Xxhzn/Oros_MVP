@@ -1,6 +1,10 @@
 
 class_name Battle_Character
 
+# 当前角色发生变化
+signal on_Change
+signal on_hit
+
 # 显示名称
 var display_name:String
 
@@ -37,6 +41,9 @@ var speed:int:
 
 # 是否死亡
 var died:bool = false
+
+# 是敌人还是玩家(true为玩家，false为敌人，不可操作)
+var control:bool = true
 
 # 状态数组
 var states:Array = []
