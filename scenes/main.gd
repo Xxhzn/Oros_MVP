@@ -10,6 +10,7 @@ class_name Main
 @onready var enemy_pos_3: TextureRect = $EnemyPos3
 
 @onready var battle_character_template: Battle_Character_View = $BattleCharacterTemplate
+@onready var battle_menu: UIBattleMenu = $BattleMenu
 
 var player_positions:Array[Control] = []
 var enemy_positions:Array[Control] = []
