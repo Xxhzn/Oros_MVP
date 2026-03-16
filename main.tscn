@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bnm2n34rkrnd4" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://c7u5wwm3tbr7d" path="res://art/sprite/prototype_player.png" id="2_h2yge"]
-[ext_resource type="Script" uid="uid://dtp2qltlrm05t" path="res://scrips/view/battle_character_template.gd" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://dtp2qltlrm05t" path="res://scripts/view/Battle/battle_character_template.gd" id="3_1bvp3"]
 
 [node name="Control" type="Control" unique_id=838882874]
 layout_mode = 3

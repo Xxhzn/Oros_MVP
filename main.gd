@@ -42,7 +42,7 @@ func _player_a_select_action():
 	#key_input_label.text = "请选择动作 ： 1 攻击"
 	#var act = await key_input 
 	#
-	if act == 1:
+	#if act == 1:
 		#console_label.push_text("主角A 选择了 攻击")
 		_player_a_select_target()
 		

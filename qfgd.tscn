@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://0l84dowijube"]
+
+[sub_resource type="GDScript" id="GDScript_77wgv"]
+script/source = "extends Node2D
+
+var enent_a:EasyEvent = EasyEvent.new()
+
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	enent_a.register(func():
+		print(\"a\")
+	).un_register_when_node_exiting_tree(self)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if Input.is_key_label_pressed(Key.KEY_SPACE):
+		enent_a.trigger()
+	
+"
+
+[node name="Qfgd" type="Node2D" unique_id=562001360]
+script = SubResource("GDScript_77wgv")
