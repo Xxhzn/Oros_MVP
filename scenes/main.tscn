@@ -16,6 +16,44 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
 
+[node name="BattleMenu" type="Panel" parent="." unique_id=978495794]
+layout_mode = 0
+offset_left = 658.0
+offset_top = 181.0
+offset_right = 1366.0
+offset_bottom = 924.0
+theme = ExtResource("4_tbgi4")
+script = ExtResource("5_tefeu")
+
+[node name="title" type="Label" parent="BattleMenu" unique_id=1994342748]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 33.0
+offset_right = 589.0
+offset_bottom = 92.0
+theme = ExtResource("6_tefeu")
+theme_override_font_sizes/font_size = 40
+text = "标题"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuItemRoot" type="VBoxContainer" parent="BattleMenu" unique_id=432861926]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 118.0
+offset_right = 603.0
+offset_bottom = 741.0
+theme = ExtResource("4_tbgi4")
+
+[node name="BattleMenuItemTemplate" type="Button" parent="BattleMenu" unique_id=520050804]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 118.0
+offset_right = 603.0
+offset_bottom = 177.0
+theme = ExtResource("4_tbgi4")
+text = "攻击"
+
 [node name="PlayerPos1" type="TextureRect" parent="." unique_id=1581612448]
 visible = false
 texture_filter = 1
@@ -114,7 +152,7 @@ clip_contents = false
 layout_mode = 0
 offset_left = 9.0
 offset_top = 196.0
-offset_right = 189.0
+offset_right = 212.0
 offset_bottom = 246.0
 theme = ExtResource("4_tbgi4")
 text = "主角A HP10"
@@ -122,41 +160,3 @@ scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="BattleMenu" type="Panel" parent="." unique_id=978495794]
-layout_mode = 0
-offset_left = 658.0
-offset_top = 181.0
-offset_right = 1366.0
-offset_bottom = 924.0
-theme = ExtResource("4_tbgi4")
-script = ExtResource("5_tefeu")
-
-[node name="title" type="Label" parent="BattleMenu" unique_id=1994342748]
-layout_mode = 0
-offset_left = 125.0
-offset_top = 33.0
-offset_right = 589.0
-offset_bottom = 92.0
-theme = ExtResource("6_tefeu")
-theme_override_font_sizes/font_size = 40
-text = "标题"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuItemRoot" type="VBoxContainer" parent="BattleMenu" unique_id=432861926]
-layout_mode = 0
-offset_left = 113.0
-offset_top = 118.0
-offset_right = 603.0
-offset_bottom = 741.0
-theme = ExtResource("4_tbgi4")
-
-[node name="BattleMenuItemTemplate" type="Button" parent="BattleMenu" unique_id=520050804]
-layout_mode = 0
-offset_left = 113.0
-offset_top = 118.0
-offset_right = 603.0
-offset_bottom = 177.0
-theme = ExtResource("4_tbgi4")
-text = "攻击"
