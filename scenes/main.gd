@@ -52,9 +52,12 @@ func _ready() -> void:
 	fsm.start_state(States.Prepare)
 	
 
+func select_character_weapon(index:int):
+	Global_Model.current_character.weapId = index
+
 func _start_player(battle_character:Battle_Character):
-	Global_Model.current_character = battle_character
-	Global_Model.current_character.onChange.emit()
+	#Global_Model.current_character = battle_character
+	#Global_Model.current_character.onChange.emit()
 	
 	#var battle_characer_data:Battle_Character = Global_Model.BattleCharacterArr.CharacterArr.find_custom(
 		#func(c:Battle_Character): 

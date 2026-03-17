@@ -21,5 +21,5 @@ func enter():
 			battle_scene.our_team_character.append(character)
 			character.position = battle_scene.player_positions[i].position
 	
-	#fsm.change_state(Main.States.Loop)
+	fsm.change_state(Main.States.Loop)
 	

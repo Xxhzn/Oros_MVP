@@ -3,6 +3,9 @@ class_name ablities_data
 # 技能ID 
 var index
 
+# 技能名称
+var displayname
+
 # 技能伤害
 var dmg
 

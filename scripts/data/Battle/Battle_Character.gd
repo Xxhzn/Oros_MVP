@@ -42,6 +42,9 @@ var speed:int:
 # 是否死亡
 var died:bool = false
 
+# 是否行动
+var act:bool = false
+
 # 是敌人还是玩家(true为玩家，false为敌人，不可操作)
 var control:bool = true
 
@@ -52,4 +55,4 @@ var states:Array = []
 var weapId:int = 0
 
 # 角色技能
-var ablitiesCD:Dictionary = {}
+var ablities:Dictionary[int,ablities_data] = {}
