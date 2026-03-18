@@ -29,10 +29,10 @@ func enemy_start_attack(character:Battle_Character):
 	var ablitiy:ablities_data
 	var target:Battle_Character
 	
-	while ablities_data == null:
+	while ablitiy == null:
 		var key = character.ablities.keys().pick_random()
 		var random_value = character.ablities[key]
-		if random_value.abCooldown != 0:
+		if random_value.countDown != 0:
 			continue
 		else:
 			ablitiy = random_value
@@ -43,11 +43,43 @@ func enemy_start_attack(character:Battle_Character):
 			break
 	
 			
-	if ablities_data != null:
-		calcDmg(ablitiy, target)
+	if ablitiy != null:
+		calc_turn_dmg(ablitiy, target, Global_Model.current_character)
 
-func calcDmg(ablitiy:ablities_data, target:Battle_Character):
-	pass
+func calc_turn_dmg(ablitiy:ablities_data, target:Battle_Character, current:Battle_Character):
+	# 计算技能最终造成的伤害，并四舍五入
+	var damage_rate = States.get_damage_rate(target.states, current.states, ablitiy.states)
+	var final_damage = ablitiy.dmg * damage_rate
+	var damage_value = roundi(final_damage)
+	
+	# 目标hp减少
+	target.hp -= damage_value
+	
+	# 判断目标是否死亡
+	if target.hp <= 0:
+		target.died = true
+		
+	# 
+	var synergy_key = States.apply_ability_keyword(target, ablitiy.states)
+	if synergy_key != "":
+		print("触发联动: ", synergy_key)
+		var synergy_info = States.keywords_synergy_info[synergy_key]
+		var remove_old = synergy_info["remove_old"]
+		var synergy_effect = synergy_info["effect"]
+	
+	# 让技能进入冷却
+	if ablitiy.abCooldown != 0:
+		ablitiy.countDown = ablitiy.abCooldown
+	
+	# 关键词联动结算
+	var synergy_info = States.get_synergy_info(States.keywords.PIERCE, States.keywords.STAGGER)
+	
+	#if synergy_info.is_empty():
+	
+	
+	
+	# 如果所有 可控 || 不可控 目标均以死亡，战斗结束（胜利/失败）
+	
 
 func aiden_start_select_weapon():
 	battle_scene.battle_menu.open()
