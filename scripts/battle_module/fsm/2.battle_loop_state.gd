@@ -10,6 +10,7 @@ func enter():
 	
 	for character in Global_Model.BattleCharacters.CharacterArr:
 		Global_Model.current_character = character
+		on_turn_start(character)
 		print(character.display_name)
 		# 先找到行动的角色的view，然后调用这个view里面的向前走一步方法
 		var index = battle_scene.our_team_character.find_custom(func(c:Battle_Character): return c.data == Global_Model.current_character)
@@ -23,6 +24,13 @@ func enter():
 			await aiden_start_select_target()
 		elif character.control == false and character.died == false:
 			await enemy_start_attack(character)
+
+# 单位行动开始时移除到期关键词/联动状态
+func on_turn_start(character:Battle_Character):
+	for keyword in character.states.duplicate():
+		if States.expire_on_turn_start(keyword):
+			character.states.erase(keyword)
+
 
 func enemy_start_attack(character:Battle_Character):
 	
@@ -48,7 +56,7 @@ func enemy_start_attack(character:Battle_Character):
 
 func calc_turn_dmg(ablitiy:ablities_data, target:Battle_Character, current:Battle_Character):
 	# 计算技能最终造成的伤害，并四舍五入
-	var damage_rate = States.get_damage_rate(target.states, current.states, ablitiy.states)
+	var damage_rate = States.get_damage_rate(target.states, current.states)
 	var final_damage = ablitiy.dmg * damage_rate
 	var damage_value = roundi(final_damage)
 	
@@ -66,6 +74,7 @@ func calc_turn_dmg(ablitiy:ablities_data, target:Battle_Character, current:Battl
 		var synergy_info = States.keywords_synergy_info[synergy_key]
 		var remove_old = synergy_info["remove_old"]
 		var synergy_effect = synergy_info["effect"]
+		var delay_current_turn_once = synergy_info["delay_current_turn_once"]
 	
 	# 让技能进入冷却
 	if ablitiy.abCooldown != 0:
