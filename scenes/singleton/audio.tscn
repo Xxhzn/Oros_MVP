@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bbfiihu78n7nk"]
+
+[ext_resource type="Script" uid="uid://pltuuq8gm3j6" path="res://scenes/singleton/audio.gd" id="1_n1nry"]
+
+[node name="Audio" type="Node2D" unique_id=1312582581]
+script = ExtResource("1_n1nry")
+
+[node name="SfxPlayer" type="AudioStreamPlayer2D" parent="." unique_id=2120279144]

@@ -39,7 +39,7 @@ var origin_pos:Vector2
 
 func forward():
 	origin_pos = position
-	var dst_pos = origin_pos + Vector2.RIGHT * 100
+	var dst_pos = origin_pos
 	if flip_h:
 		dst_pos += Vector2.LEFT * 100
 	else:

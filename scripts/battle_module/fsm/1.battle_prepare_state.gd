@@ -13,12 +13,12 @@ func enter():
 		character.show()
 		character.update_view()
 		if !_Character.control:
-			battle_scene.enemy_team_character.append(character)
+			battle_scene.enemy_team_character.set(_Character.index, character)
 			character.texture = load(_Character.texture_path)
 			character.position = battle_scene.enemy_positions[i].position
 			character.turn_left()
 		else:
-			battle_scene.our_team_character.append(character)
+			battle_scene.our_team_character.set(_Character.index, character)
 			character.position = battle_scene.player_positions[i].position
 	
 	fsm.change_state(Main.States.Loop)
