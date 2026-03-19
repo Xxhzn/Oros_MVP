@@ -66,6 +66,7 @@ func InitAblities():
 	# 技能1射击
 	var shoot = ablities_data.new()
 	shoot.abCooldown = 0
+	shoot.countDown = 0
 	shoot.dmg = 10
 	shoot.attackCount = 1
 	shoot.index = 0
@@ -76,6 +77,7 @@ func InitAblities():
 	# 技能2快速射击
 	var quickShoot = ablities_data.new()
 	quickShoot.abCooldown = 1
+	quickShoot.countDown = 0
 	quickShoot.dmg = 10
 	quickShoot.attackCount = 3
 	quickShoot.index = 1
@@ -86,6 +88,7 @@ func InitAblities():
 	# 技能3震弦射击
 	var stringShoot = ablities_data.new()
 	stringShoot.abCooldown = 1
+	stringShoot.countDown = 0
 	stringShoot.dmg = 5
 	stringShoot.attackCount = 1
 	stringShoot.index = 2
@@ -103,6 +106,7 @@ func InitAblities():
 	# 技能4盾击
 	var shield = ablities_data.new()
 	shield.abCooldown = 0
+	shield.countDown = 0
 	shield.dmg = 15
 	shield.attackCount = 1
 	shield.index = 3
@@ -113,10 +117,11 @@ func InitAblities():
 	# 技能5盾牌守护
 	var guardianShield = ablities_data.new()
 	guardianShield.abCooldown = 1
+	guardianShield.countDown = 0
 	guardianShield.dmg = 0
 	guardianShield.attackCount = 1
 	guardianShield.index = 4
-	guardianShield.status = 3
+	guardianShield.states = 3
 	guardianShield.target = true
 	guardianShield.countDown = 0
 	guardianShield.displayname = "盾牌守护"
@@ -124,10 +129,11 @@ func InitAblities():
 	# 技能6守势回稳
 	var defensive = ablities_data.new()
 	defensive.abCooldown = 1
+	defensive.countDown = 0
 	defensive.dmg = 0
 	defensive.attackCount = 1
 	defensive.index = 5
-	defensive.status = 4
+	defensive.states = 4
 	defensive.target = true
 	defensive.countDown = 0
 	defensive.displayname = "守势回稳"
@@ -144,6 +150,7 @@ func InitAblities():
 	# 技能1射击
 	var enemyShoot = ablities_data.new()
 	enemyShoot.abCooldown = 0
+	enemyShoot.countDown = 0
 	enemyShoot.dmg = 10
 	enemyShoot.attackCount = 1
 	enemyShoot.index = 0
@@ -155,6 +162,7 @@ func InitAblities():
 	# 技能2瞄准射击
 	var targetedShoot = ablities_data.new()
 	targetedShoot.abCooldown = 1
+	targetedShoot.countDown = 0
 	targetedShoot.dmg = 20
 	targetedShoot.attackCount = 1
 	targetedShoot.index = 1
@@ -166,6 +174,7 @@ func InitAblities():
 	# 技能1盾牌冲锋
 	var enemyShield = ablities_data.new()
 	enemyShield.abCooldown = 0
+	enemyShield.countDown = 0
 	enemyShield.dmg = 15
 	enemyShield.attackCount = 1
 	enemyShield.index = 0
@@ -177,6 +186,7 @@ func InitAblities():
 	# 技能2盾击
 	var shieldAttack = ablities_data.new()
 	shieldAttack.abCooldown = 1
+	shieldAttack.countDown = 0
 	shieldAttack.dmg = 20
 	shieldAttack.attackCount = 1
 	shieldAttack.index = 1

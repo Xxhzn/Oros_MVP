@@ -9,8 +9,8 @@ var displayname
 # 技能伤害
 var dmg
 
-# 技能效果
-var status
+# 关键词
+var states
 
 # 技能冷却
 var abCooldown
