@@ -10,7 +10,8 @@ var displayname
 var dmg
 
 # 关键词
-var states
+
+var status
 
 # 技能冷却
 var abCooldown
