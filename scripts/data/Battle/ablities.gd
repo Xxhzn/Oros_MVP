@@ -10,6 +10,7 @@ var displayname
 var dmg
 
 # 关键词
+
 var status
 
 # 技能冷却

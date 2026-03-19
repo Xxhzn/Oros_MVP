@@ -114,7 +114,7 @@ func InitAblities():
 	guardianShield.dmg = 0
 	guardianShield.attackCount = 1
 	guardianShield.index = 4
-	guardianShield.status = 3
+	guardianShield.states = 3
 	guardianShield.target = true
 	guardianShield.displayname = "盾牌守护"
 	
@@ -125,7 +125,7 @@ func InitAblities():
 	defensive.dmg = 0
 	defensive.attackCount = 1
 	defensive.index = 5
-	defensive.status = 4
+	defensive.states = 4
 	defensive.target = true
 	defensive.displayname = "守势回稳"
 	
