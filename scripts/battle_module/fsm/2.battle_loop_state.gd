@@ -29,6 +29,13 @@ func enter():
 			await aiden_start_select_target()
 		elif character.control == false and character.died == false:
 			await enemy_start_attack(character)
+
+# 单位行动开始时移除到期关键词/联动状态
+#func on_turn_start(character:Battle_Character):
+	#for keyword in character.states.duplicate():
+		#if States.expire_on_turn_start(keyword):
+			#character.states.erase(keyword)
+
 =======
 	while 1:
 		
