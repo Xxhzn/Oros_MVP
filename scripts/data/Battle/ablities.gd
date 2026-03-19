@@ -15,6 +15,9 @@ var status
 # 技能冷却
 var abCooldown
 
+# 技能剩余冷却时间
+var countDown
+
 # 技能攻击次数
 var attackCount
 

@@ -15,8 +15,8 @@ class_name Main
 var player_positions:Array[Control] = []
 var enemy_positions:Array[Control] = []
 
-var our_team_character:Array[Battle_Character_View] = []
-var enemy_team_character:Array[Battle_Character_View] = []
+var our_team_character:Dictionary[int,Battle_Character_View] = {}
+var enemy_team_character:Dictionary[int,Battle_Character_View] = {}
 
 
 enum States
@@ -55,27 +55,6 @@ func _ready() -> void:
 func select_character_weapon(index:int):
 	Global_Model.current_character.weapId = index
 
-func _start_player(battle_character:Battle_Character):
-	#Global_Model.current_character = battle_character
-	#Global_Model.current_character.onChange.emit()
-	
-	#var battle_characer_data:Battle_Character = Global_Model.BattleCharacterArr.CharacterArr.find_custom(
-		#func(c:Battle_Character): 
-			#return c.data == battle_character)
-			
-	_player_a_select_action()
-	
-func _player_a_select_action():
-	#key_input_label.text = "请选择动作 ： 1 攻击"
-	#var act = await key_input 
-	#
-	#if act == 1:
-		#console_label.push_text("主角A 选择了 攻击")
-		_player_a_select_target()
-		
-func _player_a_select_target():
-	pass
-	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	fsm.process(delta)

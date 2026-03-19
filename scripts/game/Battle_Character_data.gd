@@ -19,6 +19,7 @@ func InitCharacter():
 func InitBattleCharacter():
 	# 玩家
 	playerAden.texture_path = "res://art/sprite/prototype_player.png"
+	playerAden.index = 0
 	playerAden.hp = 100
 	playerAden.speed = 10
 	playerAden.display_name = "艾登"
@@ -27,6 +28,7 @@ func InitBattleCharacter():
 	
 	# 敌人1
 	enemyProtecter.texture_path = "res://art/sprite/prototype_enemy.png"
+	enemyProtecter.index = 1
 	enemyProtecter.hp = 100
 	enemyProtecter.dmg = 15
 	enemyProtecter.speed = 5
@@ -36,6 +38,7 @@ func InitBattleCharacter():
 	
 	# 敌人2
 	enemyShooter.texture_path = "res://art/sprite/Idle0.png"
+	enemyShooter.index = 2
 	enemyShooter.hp = 100
 	enemyShooter.dmg = 10
 	enemyShooter.speed = 8
@@ -67,6 +70,7 @@ func InitAblities():
 	shoot.attackCount = 1
 	shoot.index = 0
 	shoot.status = 0
+	shoot.countDown = 0
 	shoot.displayname = "射击"
 	
 	# 技能2快速射击
@@ -76,6 +80,7 @@ func InitAblities():
 	quickShoot.attackCount = 3
 	quickShoot.index = 1
 	quickShoot.status = 1
+	quickShoot.countDown = 0
 	quickShoot.displayname = "快速射击"
 	
 	# 技能3震弦射击
@@ -85,6 +90,7 @@ func InitAblities():
 	stringShoot.attackCount = 1
 	stringShoot.index = 2
 	stringShoot.status = 2
+	stringShoot.countDown = 0
 	stringShoot.displayname = "震弦射击"
 	
 	# 从 WeaponArr 中找到 weaponCies
@@ -101,6 +107,7 @@ func InitAblities():
 	shield.attackCount = 1
 	shield.index = 3
 	shield.status = 0
+	shield.countDown = 0
 	shield.displayname = "盾击"
 	
 	# 技能5盾牌守护
@@ -111,6 +118,7 @@ func InitAblities():
 	guardianShield.index = 4
 	guardianShield.status = 3
 	guardianShield.target = true
+	guardianShield.countDown = 0
 	guardianShield.displayname = "盾牌守护"
 	
 	# 技能6守势回稳
@@ -121,6 +129,7 @@ func InitAblities():
 	defensive.index = 5
 	defensive.status = 4
 	defensive.target = true
+	defensive.countDown = 0
 	defensive.displayname = "守势回稳"
 	
 	# 从 WeaponArr 中找到 weaponYaden
@@ -139,6 +148,7 @@ func InitAblities():
 	enemyShoot.attackCount = 1
 	enemyShoot.index = 0
 	enemyShoot.status = 0
+	enemyShoot.countDown = 0
 	enemyShoot.displayname = "射击"
 	enemyShooter.ablities.set(enemyShoot.index, enemyShoot)
 	
@@ -149,6 +159,7 @@ func InitAblities():
 	targetedShoot.attackCount = 1
 	targetedShoot.index = 1
 	targetedShoot.status = 1
+	targetedShoot.countDown = 0
 	targetedShoot.displayname = "瞄准射击"
 	enemyShooter.ablities.set(targetedShoot.index, targetedShoot)
 	
@@ -159,6 +170,7 @@ func InitAblities():
 	enemyShield.attackCount = 1
 	enemyShield.index = 0
 	enemyShield.status = 0
+	enemyShield.countDown = 0
 	enemyShield.displayname = "盾牌冲锋"
 	enemyProtecter.ablities.set(enemyShield.index, enemyShield)
 	
@@ -169,8 +181,9 @@ func InitAblities():
 	shieldAttack.attackCount = 1
 	shieldAttack.index = 1
 	shieldAttack.status = 2
+	shieldAttack.countDown = 0
 	shieldAttack.displayname = "盾击"
-	enemyShooter.ablities.set(shieldAttack.index, shieldAttack)
+	enemyProtecter.ablities.set(shieldAttack.index, shieldAttack)
 	
 	
 	
