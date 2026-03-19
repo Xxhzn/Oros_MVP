@@ -25,14 +25,16 @@ func open():
 func item(_display_name:String, on_click:Callable)->Button:
 	var menu_item = battle_menu_item_template.duplicate() as Button
 	menu_item.text = _display_name
+	print("创建按钮: ", _display_name, " 时间: ", Time.get_ticks_msec())
 	menu_item.pressed.connect(func():
+		print("按钮被按下: ", _display_name, " 时间: ", Time.get_ticks_msec())
 		on_click.call()
 		finished.emit()
-		Audio.play_menu_item_sfx()
 		#self.hide()
 	)
 	menu_item_root.add_child(menu_item)
 	menu_item.show()
+	print("按钮显示完成: ", _display_name)
 	menu_items.append(menu_item)
 	return menu_item
 	

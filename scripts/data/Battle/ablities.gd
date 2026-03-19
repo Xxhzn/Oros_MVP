@@ -9,13 +9,13 @@ var displayname
 # 技能伤害
 var dmg
 
-# 技能效果
+# 关键词
 var status
 
 # 技能冷却
 var abCooldown
 
-# 技能剩余冷却时间
+# 技能冷却剩余回合
 var countDown
 
 # 技能攻击次数
