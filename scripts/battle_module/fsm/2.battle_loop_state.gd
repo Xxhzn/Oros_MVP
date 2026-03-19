@@ -10,7 +10,7 @@ func enter():
 	
 	for character in Global_Model.BattleCharacters.CharacterArr:
 		Global_Model.current_character = character
-		#on_turn_start(character)
+		on_turn_start(character)
 		print(character.display_name)
 		# 先找到行动的角色的view，然后调用这个view里面的向前走一步方法
 		var index = battle_scene.our_team_character.find_custom(func(c:Battle_Character): return c.data == Global_Model.current_character)
@@ -26,10 +26,10 @@ func enter():
 			await enemy_start_attack(character)
 
 # 单位行动开始时移除到期关键词/联动状态
-#func on_turn_start(character:Battle_Character):
-	#for keyword in character.states.duplicate():
-		#if States.expire_on_turn_start(keyword):
-			#character.states.erase(keyword)
+func on_turn_start(character:Battle_Character):
+	for keyword in character.states.duplicate():
+		if States.expire_on_turn_start(keyword):
+			character.states.erase(keyword)
 
 
 func enemy_start_attack(character:Battle_Character):
