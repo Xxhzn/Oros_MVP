@@ -5,9 +5,6 @@ class_name Battle_Character
 signal on_Change
 signal on_hit
 
-# 角色索引
-var index
-
 # 显示名称
 var display_name:String
 
