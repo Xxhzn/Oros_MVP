@@ -20,7 +20,10 @@ var texture_path:String:
 			texture_path = texturePath
 		else:
 			texture_path = "res://art/sprite/prototype_player.png"
-		
+	
+# 角色最大生命值
+var max_hp: int = 0
+
 # 角色血量
 var hp:int:
 	get:
@@ -53,6 +56,9 @@ var control:bool = true
 
 # 状态数组
 var states:Array = []
+
+# 关键词运行时实例列表
+var keyword_runtimes: Array[KeywordRuntime] = []
 
 # 玩家武器(只有主角艾登拥有，后期要每个角色都要单独起类来继承Battle_Character)
 var weapId:int = 0

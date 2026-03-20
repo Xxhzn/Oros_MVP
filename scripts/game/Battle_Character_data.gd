@@ -20,7 +20,8 @@ func InitBattleCharacter():
 	# 玩家
 	playerAden.texture_path = "res://art/sprite/prototype_player.png"
 	playerAden.index = 0
-	playerAden.hp = 100
+	playerAden.max_hp = 200
+	playerAden.hp = 200
 	playerAden.speed = 10
 	playerAden.display_name = "艾登"
 	playerAden.control = true
@@ -29,6 +30,7 @@ func InitBattleCharacter():
 	# 敌人1
 	enemyProtecter.texture_path = "res://art/sprite/prototype_enemy.png"
 	enemyProtecter.index = 1
+	enemyProtecter.max_hp = 100
 	enemyProtecter.hp = 100
 	enemyProtecter.dmg = 15
 	enemyProtecter.speed = 5
@@ -39,6 +41,7 @@ func InitBattleCharacter():
 	# 敌人2
 	enemyShooter.texture_path = "res://art/sprite/Idle0.png"
 	enemyShooter.index = 2
+	enemyShooter.max_hp = 100
 	enemyShooter.hp = 100
 	enemyShooter.dmg = 10
 	enemyShooter.speed = 8
@@ -75,7 +78,7 @@ func InitAblities():
 	
 	# 技能2快速射击
 	var quickShoot = ablities_data.new()
-	quickShoot.abCooldown = 1
+	quickShoot.abCooldown = 2
 	quickShoot.dmg = 10
 	quickShoot.attackCount = 3
 	quickShoot.index = 1
@@ -85,7 +88,7 @@ func InitAblities():
 	
 	# 技能3震弦射击
 	var stringShoot = ablities_data.new()
-	stringShoot.abCooldown = 1
+	stringShoot.abCooldown = 2
 	stringShoot.dmg = 5
 	stringShoot.attackCount = 1
 	stringShoot.index = 2
@@ -112,7 +115,7 @@ func InitAblities():
 	
 	# 技能5盾牌守护
 	var guardianShield = ablities_data.new()
-	guardianShield.abCooldown = 1
+	guardianShield.abCooldown = 2
 	guardianShield.dmg = 0
 	guardianShield.attackCount = 1
 	guardianShield.index = 4
@@ -123,7 +126,7 @@ func InitAblities():
 	
 	# 技能6守势回稳
 	var defensive = ablities_data.new()
-	defensive.abCooldown = 1
+	defensive.abCooldown = 2
 	defensive.dmg = 0
 	defensive.attackCount = 1
 	defensive.index = 5
@@ -154,7 +157,7 @@ func InitAblities():
 	
 	# 技能2瞄准射击
 	var targetedShoot = ablities_data.new()
-	targetedShoot.abCooldown = 1
+	targetedShoot.abCooldown = 2
 	targetedShoot.dmg = 20
 	targetedShoot.attackCount = 1
 	targetedShoot.index = 1
@@ -176,7 +179,7 @@ func InitAblities():
 	
 	# 技能2盾击
 	var shieldAttack = ablities_data.new()
-	shieldAttack.abCooldown = 1
+	shieldAttack.abCooldown = 2
 	shieldAttack.dmg = 20
 	shieldAttack.attackCount = 1
 	shieldAttack.index = 1
