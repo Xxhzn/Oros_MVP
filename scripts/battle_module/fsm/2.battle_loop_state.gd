@@ -6,6 +6,8 @@ var ablities:ablities_data
 var attacktarget:Battle_Character
 var targetView:Battle_Character_View
 var conutNum:int = 0
+var ablitiy:int
+
 func enter():
 	
 	# 根据速度生成行动顺序表
@@ -81,9 +83,6 @@ func enemy_start_attack(character:Battle_Character):
 		await calcDmg()
 		
 		
-
-		
-		
 func is_group_died_all(group:Dictionary[int,Battle_Character_View]) -> bool:
 	
 	var died_all = true
@@ -130,7 +129,7 @@ func aiden_start_select_weapon():
 	await battle_scene.battle_menu.finished
 	
 	
-var ablitiy:int
+
 func aiden_start_select_action():
 	battle_scene.battle_menu.open()
 	battle_scene.battle_menu.title.text = "请选择动作"
@@ -154,22 +153,38 @@ func aiden_start_select_target(index:int):
 	battle_scene.battle_menu.open()
 	battle_scene.battle_menu.title.text = "请选择目标"
 	
+	ablities = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].ablities[index]
+	
 	for character in Global_Model.BattleCharacters.CharacterArr:
-		if character.control == false and character.died == false:
-			battle_scene.battle_menu.item(character.display_name,
-			func():
-				Audio.play_menu_item_sfx()
-				targetIndex = character.index
+		if ablities.target == true:
+			if character.control == true and character.died == false:
+				battle_scene.battle_menu.item(character.display_name,
+				func():
+					Audio.play_menu_item_sfx()
+					targetIndex = character.index
+					#print(character.display_name)
+					)
+		else:
+			if character.control == false and character.died == false:
+				battle_scene.battle_menu.item(character.display_name,
+				func():
+					Audio.play_menu_item_sfx()
+					targetIndex = character.index
 				#print(character.display_name)
 				)
+			
+	
 	await battle_scene.battle_menu.finished
 	battle_scene.battle_menu.hide()
 	for i in Global_Model.BattleCharacters.CharacterArr:
 		if i.index == targetIndex:
 			attacktarget = i
-	ablities = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].ablities[index]
-	targetView = battle_scene.enemy_team_character[targetIndex]
+	if ablities.target == true:
+		targetView = battle_scene.our_team_character[targetIndex]
+	else:
+		targetView = battle_scene.enemy_team_character[targetIndex]
 	
+
 	print("艾登使用了" + ablities.displayname)
 	
 	await calcDmg()
