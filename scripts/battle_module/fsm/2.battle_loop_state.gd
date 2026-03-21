@@ -157,22 +157,23 @@ func change_abilities_countdown():
 
 		
 func enemy_start_attack(character:Battle_Character):
+	var decision := EnemyRuleAI.decide_enemy_action(
+		character,
+		Global_Model.BattleCharacters.CharacterArr
+	)
 	
-	
-	while 1:
-		var key = character.ablities.keys().pick_random()
-		var random_value = character.ablities[key]
-		if random_value.countDown != 0:
-			continue
-		else:
-			ablities = random_value
-			break
-	
-	while(1):
-		attacktarget = Global_Model.BattleCharacters.CharacterArr.pick_random()
-		if attacktarget.control:
-			targetView = battle_scene.our_team_character[attacktarget.index]
-			break
+	# 选择技能
+	ablities = decision["ability"]
+	if ablities == null:
+		return
+		
+	# 选择目标
+	attacktarget = decision["target"]
+	if attacktarget == null:
+		return
+
+	targetView = battle_scene.our_team_character[attacktarget.index]
+
 	
 	print("[使用技能] %s -> %s" % [character.display_name, ablities.displayname])
 	if ablities != null:
@@ -196,7 +197,7 @@ func calcDmg():
 	if ablities.target == false:
 		var count = ablities.attackCount
 		ablities.countDown = ablities.abCooldown
-		print("[技能结算] 冷却=%d 伤害=%d 目标=%s 伤害段数=%d" % [
+		print("[技能结算] 冷却=%d 每段伤害=%d 目标=%s 伤害段数=%d" % [
 			ablities.countDown,
 			ablities.dmg,
 			attacktarget.display_name,

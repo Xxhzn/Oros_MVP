@@ -180,7 +180,7 @@ func InitAblities():
 	# 技能2盾击
 	var shieldAttack = ablities_data.new()
 	shieldAttack.abCooldown = 2
-	shieldAttack.dmg = 20
+	shieldAttack.dmg = 5
 	shieldAttack.attackCount = 1
 	shieldAttack.index = 1
 	shieldAttack.status = 2
