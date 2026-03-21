@@ -1,4 +1,4 @@
-class_name States
+class_name Keywords
 
 #枚举所有关键词和联动效果
 enum keywords {
@@ -27,60 +27,60 @@ static var keywords_info : Dictionary = {
 		"type" : "进攻型",
 		"effect" : "目标受到的伤害提高10%",
 		"trigger_rule" : "持续生效，无单独触发时机",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"damage_taken_rate" : 0.1,
 		"damage_dealt_rate" : 0.0,
-		"expire_on_turn_start" : true
+		"owner_turn_end_duration" : 2
 	},
 	keywords.STAGGER : {
 		"name" : "震荡",
 		"type" : "进攻型",
 		"effect" : "目标造成的伤害降低30%",
 		"trigger_rule" : "持续生效，无单独触发时机",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"damage_taken_rate" : 0.0,
 		"damage_dealt_rate" : -0.3,
-		"expire_on_turn_start" : true
+		"owner_turn_end_duration" : 2
 	},
 	keywords.PROTECTION : {
 		"name" : "护持",
 		"type" : "防御型",
 		"effect" : "目标受到的伤害降低30%",
 		"trigger_rule" : "持续生效，无单独触发时机",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"damage_taken_rate" : -0.3,
 		"damage_dealt_rate" : 0.0,
-		"expire_on_turn_start" : true
+		"owner_turn_end_duration" : 2
 	},
 	keywords.STABLE : {
 		"name" : "稳固",
 		"type" : "防御型",
 		"effect" : "目标回合结束时恢复其10%的血量",
-		"trigger_rule" : "目标回合结束时",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"trigger_rule" : "施放者行动结束时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"damage_taken_rate" : 0.0,
 		"damage_dealt_rate" : 0.0,
-		"expire_on_turn_start" : true
+		"owner_turn_end_duration" : 2
 	},
 	keywords.PIERCE_STAGGER_SYNERGY : {
 		"name" : "穿刺震荡联动",
 		"type" : "进攻型",
 		"effect" : "目标受到的伤害提高20%；且目标行动轮次在本回合延后一个单位",
 		"trigger_rule" : "由【穿刺】和【震荡】联动触发",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"damage_taken_rate" : 0.2,
 		"damage_dealt_rate" : 0.0,
-		"expire_on_turn_start" : true
+		"owner_turn_end_duration" : 2
 	},
 	keywords.PROTECTION_STABLE_SYNERGY : {
 		"name" : "护持稳固联动",
 		"type" : "防御型",
 		"effect" : "目标不会因受到伤害而被附加新的进攻型关键词",
 		"trigger_rule" : "由【护持】和【稳固】联动触发",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"damage_taken_rate" : 0.0,
 		"damage_dealt_rate" : 0.0,
-		"expire_on_turn_start" : true
+		"owner_turn_end_duration" : 2
 	}
 }
 
@@ -90,7 +90,7 @@ static var keywords_synergy_info:Dictionary = {
 		"type" : "进攻型",
 		"effect" : "目标受到的伤害提高20%；且目标行动轮次在本回合延后一个单位",
 		"trigger_rule" : "【穿刺】和【震荡】同时出现在目标身上时",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"remove_old" : true,
 		"damage_taken_rate" : 0.2,
 		"result_state" : keywords.PIERCE_STAGGER_SYNERGY,
@@ -100,7 +100,7 @@ static var keywords_synergy_info:Dictionary = {
 		"type" : "防御型",
 		"effect" : "目标不会因受到伤害而被附加新的进攻型关键词",
 		"trigger_rule" : "【护持】和【稳固】同时出现在目标身上时",
-		"expire_rule" : "目标下一个回合行动开始时",
+		"expire_rule" : "施放者的下一个回合行动结束时失效",
 		"remove_old" : true,
 		"damage_taken_rate" : 0.0,
 		"result_state" : keywords.PROTECTION_STABLE_SYNERGY
@@ -145,27 +145,29 @@ static func get_damage_rate(target_states, current_states):
 	return (1.0 + damage_taken) * (1.0 + damage_dealt)
 
 # 给目标附加关键词/联动状态
-static func apply_ability_keyword(target, ability_state):
-	if not target.died and ability_state != States.keywords.NONE:
+static func apply_ability_keyword(target, ability_state, caster):
+	if not target.died and ability_state != Keywords.keywords.NONE:
 		if has_protection_stable_synergy(target) and is_attack_keyword(ability_state):
 			return ""
 		
-		for current_state in target.states.duplicate():
+		var target_keywords = get_keywords_from_runtimes(target.keyword_runtimes)
+		for current_state in target_keywords:
 			var synergy_key = get_synergy_key(current_state, ability_state)
+
 			if synergy_key != "":
 				var synergy_info = keywords_synergy_info[synergy_key]
 				var remove_old = synergy_info["remove_old"]
-				
+
 				if remove_old == true:
-					target.states.erase(current_state)
-					
+					remove_keyword_from_target(target, current_state)
+
 				var result_state = synergy_info["result_state"]
-				if not target.states.has(result_state):
-					target.states.append(result_state)
+				set_keyword_on_target(target, result_state, caster)
+
 				return synergy_key
 
-		if not target.states.has(ability_state):
-			target.states.append(ability_state)
+		set_keyword_on_target(target, ability_state, caster)
+
 	return ""
 			
 # 获取联动字符串键
@@ -194,11 +196,72 @@ static func is_attack_keyword(keyword):
 
 # 判断目标是否获得护持稳固联动状态
 static func has_protection_stable_synergy(target):
-	return target.states.has(keywords.PROTECTION_STABLE_SYNERGY)
+	return has_keyword_runtime(target, keywords.PROTECTION_STABLE_SYNERGY)
 
-# 判断关键词是否在行动开始时失效
-static func expire_on_turn_start(keyword):
+# 获取关键词默认要持续几次“施放者行动结束”
+static func get_owner_turn_end_duration(keyword):
 	if not keywords_info.has(keyword):
-		return false
+		return 0
+	if not keywords_info[keyword].has("owner_turn_end_duration"):
+		return 0
+	return keywords_info[keyword]["owner_turn_end_duration"]
 	
-	return keywords_info[keyword]["expire_on_turn_start"] == true
+# 在目标身上的 keyword_runtimes 中查找指定关键词的运行时实例
+static func find_keyword_runtime(target, keyword):
+	for runtime in target.keyword_runtimes:
+		if runtime.keyword == keyword:
+			return runtime
+	return null
+
+# 从目标的 keyword_runtimes 中移除指定关键词的运行时实例
+static func remove_keyword_runtime(target, keyword):
+	for runtime in target.keyword_runtimes.duplicate():
+		if runtime.keyword == keyword:
+			target.keyword_runtimes.erase(runtime)
+
+
+static func upsert_keyword_runtime(target, keyword, caster, duration):
+	var runtime = find_keyword_runtime(target, keyword)
+	
+	if runtime != null:
+		runtime.caster_index = caster.index
+		runtime.remaining_owner_turn_ends = duration
+	else:
+		var new_runtime = KeywordRuntime.new()
+		new_runtime.keyword = keyword
+		new_runtime.caster_index = caster.index
+		new_runtime.remaining_owner_turn_ends = duration
+		target.keyword_runtimes.append(new_runtime)
+
+# 从 keyword_runtimes 提取出纯关键词编号数组
+static func get_keywords_from_runtimes(keyword_runtimes):
+	var result = []
+	
+	for runtime in keyword_runtimes:
+		result.append(runtime.keyword)
+	
+	return result
+
+# 判断目标当前是否持有指定关键词
+static func has_keyword_runtime(target, keyword):
+	return find_keyword_runtime(target, keyword) != null
+
+# 从目标身上移除一个关键词
+static func remove_keyword_from_target(target, keyword):
+	target.states.erase(keyword)
+	remove_keyword_runtime(target, keyword)
+
+# 把一个关键词设置到目标身上
+static func set_keyword_on_target(target, keyword, caster):
+	var duration = get_owner_turn_end_duration(keyword)
+	
+	if not target.states.has(keyword):
+		target.states.append(keyword)
+	
+	upsert_keyword_runtime(target, keyword, caster, duration)
+
+# 获取关键词的调试显示名
+static func get_keyword_name(keyword):
+	if not keywords_info.has(keyword):
+		return str(keyword)
+	return "%s(%d)" % [keywords_info[keyword]["name"], keyword]
