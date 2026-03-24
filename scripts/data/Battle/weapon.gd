@@ -13,4 +13,4 @@ var texturePath
 var dmg
 
 # 武器技能
-var ablities:Dictionary[int,ablities_data] = {}
+var abilities:Dictionary[int,abilities_data] = {}

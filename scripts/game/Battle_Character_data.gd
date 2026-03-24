@@ -14,14 +14,14 @@ func _ready() -> void:
 func InitCharacter():
 	InitBattleCharacter()
 	InitWeapon()
-	InitAblities()
+	Initabilities()
 		
 func InitBattleCharacter():
 	# 玩家
 	playerAden.texture_path = "res://art/sprite/prototype_player.png"
 	playerAden.index = 0
-	playerAden.max_hp = 200
-	playerAden.hp = 200
+	playerAden.max_hp = 150
+	playerAden.hp = 150
 	playerAden.speed = 10
 	playerAden.display_name = "艾登"
 	playerAden.control = true
@@ -42,7 +42,7 @@ func InitBattleCharacter():
 	enemyShooter.texture_path = "res://art/sprite/Idle0.png"
 	enemyShooter.index = 2
 	enemyShooter.max_hp = 100
-	enemyShooter.hp = 100
+	enemyShooter.hp = 50
 	enemyShooter.dmg = 10
 	enemyShooter.speed = 8
 	enemyShooter.display_name = "帝国射手"
@@ -65,9 +65,9 @@ func InitWeapon():
 	weaponYaden.index = 1
 	WeaponArr.set(weaponYaden.index, weaponYaden)
 	
-func InitAblities():
+func Initabilities():
 	# 技能1射击
-	var shoot = ablities_data.new()
+	var shoot = abilities_data.new()
 	shoot.abCooldown = 0
 	shoot.dmg = 10
 	shoot.attackCount = 1
@@ -77,7 +77,7 @@ func InitAblities():
 	shoot.displayname = "射击"
 	
 	# 技能2快速射击
-	var quickShoot = ablities_data.new()
+	var quickShoot = abilities_data.new()
 	quickShoot.abCooldown = 2
 	quickShoot.dmg = 10
 	quickShoot.attackCount = 3
@@ -87,7 +87,7 @@ func InitAblities():
 	quickShoot.displayname = "快速射击"
 	
 	# 技能3震弦射击
-	var stringShoot = ablities_data.new()
+	var stringShoot = abilities_data.new()
 	stringShoot.abCooldown = 2
 	stringShoot.dmg = 5
 	stringShoot.attackCount = 1
@@ -99,12 +99,12 @@ func InitAblities():
 	# 从 WeaponArr 中找到 weaponCies
 	var weaponCies = WeaponArr[0]
 	if weaponCies:
-		weaponCies.ablities.set(shoot.index,shoot)
-		weaponCies.ablities.set(quickShoot.index, quickShoot)
-		weaponCies.ablities.set(stringShoot.index, stringShoot)
+		weaponCies.abilities.set(shoot.index,shoot)
+		weaponCies.abilities.set(quickShoot.index, quickShoot)
+		weaponCies.abilities.set(stringShoot.index, stringShoot)
 	
 	# 技能4盾击
-	var shield = ablities_data.new()
+	var shield = abilities_data.new()
 	shield.abCooldown = 0
 	shield.dmg = 15
 	shield.attackCount = 1
@@ -114,7 +114,7 @@ func InitAblities():
 	shield.displayname = "盾击"
 	
 	# 技能5盾牌守护
-	var guardianShield = ablities_data.new()
+	var guardianShield = abilities_data.new()
 	guardianShield.abCooldown = 2
 	guardianShield.dmg = 0
 	guardianShield.attackCount = 1
@@ -125,7 +125,7 @@ func InitAblities():
 	guardianShield.displayname = "盾牌守护"
 	
 	# 技能6守势回稳
-	var defensive = ablities_data.new()
+	var defensive = abilities_data.new()
 	defensive.abCooldown = 2
 	defensive.dmg = 0
 	defensive.attackCount = 1
@@ -139,13 +139,13 @@ func InitAblities():
 	var weaponYaden = WeaponArr[1]
 
 	if weaponYaden:
-		weaponYaden.ablities.set(shield.index, shield)
-		weaponYaden.ablities.set(guardianShield.index, guardianShield)
-		weaponYaden.ablities.set(defensive.index, defensive)
+		weaponYaden.abilities.set(shield.index, shield)
+		weaponYaden.abilities.set(guardianShield.index, guardianShield)
+		weaponYaden.abilities.set(defensive.index, defensive)
 	
 	# 敌人技能
 	# 技能1射击
-	var enemyShoot = ablities_data.new()
+	var enemyShoot = abilities_data.new()
 	enemyShoot.abCooldown = 0
 	enemyShoot.dmg = 10
 	enemyShoot.attackCount = 1
@@ -153,10 +153,10 @@ func InitAblities():
 	enemyShoot.status = 0
 	enemyShoot.countDown = 0
 	enemyShoot.displayname = "射击"
-	enemyShooter.ablities.set(enemyShoot.index, enemyShoot)
+	enemyShooter.abilities.set(enemyShoot.index, enemyShoot)
 	
 	# 技能2瞄准射击
-	var targetedShoot = ablities_data.new()
+	var targetedShoot = abilities_data.new()
 	targetedShoot.abCooldown = 2
 	targetedShoot.dmg = 20
 	targetedShoot.attackCount = 1
@@ -164,10 +164,10 @@ func InitAblities():
 	targetedShoot.status = 1
 	targetedShoot.countDown = 0
 	targetedShoot.displayname = "瞄准射击"
-	enemyShooter.ablities.set(targetedShoot.index, targetedShoot)
+	enemyShooter.abilities.set(targetedShoot.index, targetedShoot)
 	
 	# 技能1盾牌冲锋
-	var enemyShield = ablities_data.new()
+	var enemyShield = abilities_data.new()
 	enemyShield.abCooldown = 0
 	enemyShield.dmg = 15
 	enemyShield.attackCount = 1
@@ -175,10 +175,10 @@ func InitAblities():
 	enemyShield.status = 0
 	enemyShield.countDown = 0
 	enemyShield.displayname = "盾牌冲锋"
-	enemyProtecter.ablities.set(enemyShield.index, enemyShield)
+	enemyProtecter.abilities.set(enemyShield.index, enemyShield)
 	
 	# 技能2盾击
-	var shieldAttack = ablities_data.new()
+	var shieldAttack = abilities_data.new()
 	shieldAttack.abCooldown = 2
 	shieldAttack.dmg = 5
 	shieldAttack.attackCount = 1
@@ -186,7 +186,7 @@ func InitAblities():
 	shieldAttack.status = 2
 	shieldAttack.countDown = 0
 	shieldAttack.displayname = "盾击"
-	enemyProtecter.ablities.set(shieldAttack.index, shieldAttack)
+	enemyProtecter.abilities.set(shieldAttack.index, shieldAttack)
 	
 	
 	

@@ -25,11 +25,11 @@ static func get_alive_player_targets(all_characters: Array[Battle_Character]) ->
 	return result
 
 # 获取可用技能列表
-static func get_available_enemy_abilities(enemy: Battle_Character) -> Array[ablities_data]:
-	var result: Array[ablities_data] = []
+static func get_available_enemy_abilities(enemy: Battle_Character) -> Array[abilities_data]:
+	var result: Array[abilities_data] = []
 
-	for ability_index in enemy.ablities:
-		var ability: ablities_data = enemy.ablities[ability_index]
+	for ability_index in enemy.abilities:
+		var ability: abilities_data = enemy.abilities[ability_index]
 		if ability.countDown == 0:
 			result.append(ability)
 
@@ -37,9 +37,9 @@ static func get_available_enemy_abilities(enemy: Battle_Character) -> Array[abli
 
 # 在可用技能中找到对应的名字的技能对象
 static func find_ability_by_name(
-	available_abilities: Array[ablities_data],
+	available_abilities: Array[abilities_data],
 	ability_name: String
-) -> ablities_data:
+) -> abilities_data:
 	for ability in available_abilities:
 		if ability.displayname == ability_name:
 			return ability
@@ -128,7 +128,7 @@ static func choose_guardian_shield_charge_target(
 static func choose_guardian_ability(
 	enemy: Battle_Character,
 	player_targets: Array[Battle_Character]
-) -> ablities_data:
+) -> abilities_data:
 	var available_abilities := get_available_enemy_abilities(enemy)
 
 	var shield_bash := find_ability_by_name(available_abilities, "盾击")
@@ -144,7 +144,7 @@ static func choose_guardian_ability(
 
 # 铁壁卫士的目标选择
 static func choose_guardian_target(
-	selected_ability: ablities_data,
+	selected_ability: abilities_data,
 	player_targets: Array[Battle_Character]
 ) -> Battle_Character:
 	if selected_ability == null:
@@ -199,7 +199,7 @@ static func choose_archer_basic_shot_target(
 static func choose_archer_ability(
 	enemy: Battle_Character,
 	player_targets: Array[Battle_Character]
-) -> ablities_data:
+) -> abilities_data:
 	var available_abilities := get_available_enemy_abilities(enemy)
 
 	var aimed_shot := find_ability_by_name(available_abilities, "瞄准射击")
@@ -210,7 +210,7 @@ static func choose_archer_ability(
 
 # 帝国射手的目标选择
 static func choose_archer_target(
-	selected_ability: ablities_data,
+	selected_ability: abilities_data,
 	player_targets: Array[Battle_Character]
 ) -> Battle_Character:
 	if selected_ability == null:

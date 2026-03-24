@@ -1,17 +1,17 @@
 class_name Keywords
 
-#枚举所有关键词和联动效果
+# 枚举所有关键词和联动效果
 enum keywords {
-	NONE,
-	PIERCE,
-	STAGGER,
-	PROTECTION,
-	STABLE,
-	PIERCE_STAGGER_SYNERGY,
-	PROTECTION_STABLE_SYNERGY
+	NONE, # 无
+	PIERCE, # 穿刺
+	STAGGER, # 震荡
+	PROTECTION, # 护持
+	STABLE, # 稳固
+	PIERCE_STAGGER_SYNERGY, # 穿刺震荡联动
+	PROTECTION_STABLE_SYNERGY # 护持稳固联动
 }
 
-#将每个关键词和联动状态的名字，类型，效果，触发规则和失效规则都用字典的方式存起来
+# 将每个关键词和联动状态的名字，类型，效果，触发规则和失效规则都用字典的方式存起来
 static var keywords_info : Dictionary = {
 	keywords.NONE : {
 		"name" : "无",
@@ -84,7 +84,7 @@ static var keywords_info : Dictionary = {
 	}
 }
 
-#关键词的联动信息
+# 关键词的联动信息
 static var keywords_synergy_info:Dictionary = {
 	"PIERCE_STAGGER" : {
 		"type" : "进攻型",
@@ -187,12 +187,28 @@ static func get_synergy_info(state_a, state_b):
 		return {}
 	return keywords_synergy_info[synergy_key]
 
-#判断该关键词是否为进攻型
+# 判断该关键词是否为进攻型
 static func is_attack_keyword(keyword):
 	if not keywords_info.has(keyword):
 		return false
 	
 	return keywords_info[keyword]["type"] == "进攻型"
+
+# 移除随机的进攻型关键词状态
+static func remove_random_attack_keyword_from_target(target) -> int:
+	var removable_keywords: Array[int] = []
+
+	for runtime in target.keyword_runtimes:
+		var keyword: int = runtime.keyword
+		if is_attack_keyword(keyword):
+			removable_keywords.append(keyword)
+
+	if removable_keywords.is_empty():
+		return keywords.NONE
+
+	var removed_keyword: int = removable_keywords.pick_random()
+	remove_keyword_from_target(target, removed_keyword)
+	return removed_keyword
 
 # 判断目标是否获得护持稳固联动状态
 static func has_protection_stable_synergy(target):

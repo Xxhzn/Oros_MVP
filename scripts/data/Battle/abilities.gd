@@ -1,4 +1,4 @@
-class_name ablities_data
+class_name abilities_data
 
 # 技能ID 
 var index
