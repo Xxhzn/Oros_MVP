@@ -4,8 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c7u5wwm3tbr7d" path="res://art/sprite/prototype_player.png" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://dtp2qltlrm05t" path="res://scripts/view/Battle/battle_character_template.gd" id="3_1bvp3"]
 [ext_resource type="Theme" uid="uid://fhx7mbq7kydo" path="res://art/theme/prototype.tres" id="4_tbgi4"]
-[ext_resource type="Script" uid="uid://dmvp48w485m5y" path="res://scripts/battle_module/UI/ui_battle_menu.gd" id="5_tefeu"]
-[ext_resource type="Theme" uid="uid://bedvhxxhxsjc3" path="res://art/theme/label_style.tres" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://cn10pfvhqfok3" path="res://scenes/battle/ui/battle_ui_root.tscn" id="6_tefeu"]
 
 [node name="Control" type="Control" unique_id=838882874]
 layout_mode = 3
@@ -16,43 +15,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
 
-[node name="BattleMenu" type="Panel" parent="." unique_id=978495794]
-layout_mode = 0
-offset_left = 658.0
-offset_top = 181.0
-offset_right = 1366.0
-offset_bottom = 924.0
-theme = ExtResource("4_tbgi4")
-script = ExtResource("5_tefeu")
-
-[node name="title" type="Label" parent="BattleMenu" unique_id=1994342748]
-layout_mode = 0
-offset_left = 125.0
-offset_top = 33.0
-offset_right = 589.0
-offset_bottom = 92.0
-theme = ExtResource("6_tefeu")
-theme_override_font_sizes/font_size = 40
-text = "标题"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuItemRoot" type="VBoxContainer" parent="BattleMenu" unique_id=432861926]
-layout_mode = 0
-offset_left = 113.0
-offset_top = 118.0
-offset_right = 603.0
-offset_bottom = 741.0
-theme = ExtResource("4_tbgi4")
-
-[node name="BattleMenuItemTemplate" type="Button" parent="BattleMenu" unique_id=520050804]
-layout_mode = 0
-offset_left = 113.0
-offset_top = 118.0
-offset_right = 603.0
-offset_bottom = 177.0
-theme = ExtResource("4_tbgi4")
-text = "攻击"
+[node name="BattleUIRoot" parent="." unique_id=621329314 instance=ExtResource("6_tefeu")]
+layout_mode = 1
 
 [node name="PlayerPos1" type="TextureRect" parent="." unique_id=1581612448]
 visible = false

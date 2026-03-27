@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bbq86elyxjut2"]
+
+[ext_resource type="Script" uid="uid://cxtluhts8ay4c" path="res://scripts/battle_module/UI/ui_status_stack.gd" id="1_iydq5"]
+
+[node name="StatusStack" type="HBoxContainer" unique_id=1482081491]
+theme_override_constants/separation = 6
+script = ExtResource("1_iydq5")

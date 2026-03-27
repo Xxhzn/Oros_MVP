@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://nuc6n4occfmy"]
+
+[ext_resource type="Script" uid="uid://cn6yakwscoabw" path="res://scripts/battle_module/UI/ui_skill_sequence_popup.gd" id="1_36ftf"]
+
+[node name="SkillSequencePopup" type="PanelContainer" unique_id=1142169353]
+custom_minimum_size = Vector2(220, 110)
+offset_right = 220.0
+offset_bottom = 110.0
+script = ExtResource("1_36ftf")
+
+[node name="Content" type="MarginContainer" parent="." unique_id=1894123305]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="LayoutRoot" type="VBoxContainer" parent="Content" unique_id=805972035]
+layout_mode = 2
+
+[node name="OrderRow" type="HBoxContainer" parent="Content/LayoutRoot" unique_id=293217616]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MainThenEchoBadge" type="ColorRect" parent="Content/LayoutRoot/OrderRow" unique_id=1525961164]
+custom_minimum_size = Vector2(96, 36)
+layout_mode = 2
+
+[node name="MainThenEchoLabel" type="Label" parent="Content/LayoutRoot/OrderRow/MainThenEchoBadge" unique_id=1094554106]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "主→回"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EchoThenMainBadge" type="ColorRect" parent="Content/LayoutRoot/OrderRow" unique_id=643202133]
+custom_minimum_size = Vector2(96, 36)
+layout_mode = 2
+
+[node name="EchoThenMainLabel" type="Label" parent="Content/LayoutRoot/OrderRow/EchoThenMainBadge" unique_id=1081334435]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "回→主"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmBadge" type="ColorRect" parent="Content/LayoutRoot" unique_id=59370208]
+custom_minimum_size = Vector2(196, 36)
+layout_mode = 2
+
+[node name="ConfirmLabel" type="Label" parent="Content/LayoutRoot/ConfirmBadge" unique_id=1549682314]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "确认"
+horizontal_alignment = 1
+vertical_alignment = 1

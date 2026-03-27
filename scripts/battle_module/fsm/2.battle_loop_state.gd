@@ -2,6 +2,12 @@ extends AbstractBattleState
 
 class_name BattleLoopStates
 
+signal player_ui_turn_finished
+
+var ui_events_bound: bool = false
+var ui_turn_active: bool = false
+var ui_selected_spirit_id: String = ""
+
 # 当前动作结算上下文
 var current_ability: abilities_data
 var attacktarget: Battle_Character
@@ -10,7 +16,6 @@ var current_action_record: Dictionary = {}
 
 # 玩家本次行动选择
 var selected_ability_index: int
-var selected_target_index: int
 var selected_action_sequence: Array[String] = []
 
 # 回声系统运行时状态
@@ -45,10 +50,390 @@ func format_runtime_list(keyword_runtimes: Array[KeywordRuntime]) -> String:
 		])
 	return "[" + ", ".join(PackedStringArray(parts)) + "]"
 
+func _bind_ui_events() -> void:
+	if ui_events_bound:
+		return
+
+	EventManager.subscribe(UIBattleEventNames.MENU_ITEM_SELECTED, _on_ui_menu_item_selected)
+	EventManager.subscribe(UIBattleEventNames.MENU_SEQUENCE_CONFIRMED, _on_ui_menu_sequence_confirmed)
+	EventManager.subscribe(UIBattleEventNames.TARGET_SELECTED, _on_ui_target_selected)
+	EventManager.subscribe(UIBattleEventNames.TARGET_SELECTION_CANCELED, _on_ui_target_selection_canceled)
+
+	ui_events_bound = true
+
+func start_player_turn_via_ui(character: Battle_Character) -> void:
+	ui_turn_active = true
+	ui_selected_spirit_id = str(character.weapId)
+	selected_echo_action_record.clear()
+	selected_action_sequence.clear()
+
+	battle_scene.battle_ui_root.show_spirit_select_menu(
+		_build_spirit_menu_items(),
+		_get_player_menu_position(character.index),
+		ui_selected_spirit_id
+	)
+
+	await player_ui_turn_finished
+
+func _get_player_menu_position(character_index: int) -> Vector2:
+	var view := battle_scene.our_team_character[character_index]
+	return view.global_position + Vector2(180, -40)
+
+func _finish_player_ui_turn() -> void:
+	ui_turn_active = false
+	player_ui_turn_finished.emit()
+
+func _show_target_select_for_current_action(action_context: Dictionary) -> void:
+	battle_scene.battle_ui_root.show_target_select_phase(
+		Global_Model.current_character.index,
+		_get_alive_enemy_target_ids(),
+		action_context
+	)
+
+func _restore_player_menu_from_action_context(action_context: Dictionary) -> void:
+	var return_stage := str(action_context.get(UIBattleEventNames.ACTION_CONTEXT_RETURN_STAGE, ""))
+
+	if return_stage == UIBattleEventNames.ACTION_CONTEXT_RETURN_STAGE_TOP_LEVEL:
+		battle_scene.battle_ui_root.show_top_level_select_menu(
+			_get_player_menu_position(Global_Model.current_character.index),
+			str(action_context.get(UIBattleEventNames.ACTION_CONTEXT_SPIRIT_ID, ui_selected_spirit_id)),
+			str(action_context.get(UIBattleEventNames.ACTION_CONTEXT_TOP_LEVEL_ITEM_ID, ""))
+		)
+		return
+
+	if return_stage == UIBattleEventNames.ACTION_CONTEXT_RETURN_STAGE_SKILL_SELECT:
+		var spirit_id := str(action_context.get(UIBattleEventNames.ACTION_CONTEXT_SPIRIT_ID, ui_selected_spirit_id))
+		var ability_index := int(action_context.get(UIBattleEventNames.ACTION_CONTEXT_ABILITY_INDEX, -1))
+		var use_echo := bool(action_context.get(UIBattleEventNames.ACTION_CONTEXT_USE_ECHO, false))
+		var order_key := str(action_context.get(UIBattleEventNames.ACTION_CONTEXT_ORDER_KEY, ""))
+
+		battle_scene.battle_ui_root.show_skill_select_menu(
+			_build_skill_menu_items(int(spirit_id), ability_index, ability_index if use_echo else -1, order_key),
+			_get_player_menu_position(Global_Model.current_character.index),
+			spirit_id,
+			str(ability_index)
+		)
+
+func _set_selected_action_sequence_main_only() -> void:
+	selected_action_sequence.clear()
+	selected_action_sequence.append("main")
+
+func _set_selected_action_sequence_with_echo(order_key: String) -> void:
+	selected_action_sequence.clear()
+	if order_key == "main_then_echo":
+		selected_action_sequence.append("main")
+		selected_action_sequence.append("echo")
+	else:
+		selected_action_sequence.append("echo")
+		selected_action_sequence.append("main")
+
+func _build_spirit_menu_items() -> Array:
+	var items: Array = []
+	for spirit_id in Global_Model.BattleCharacters.WeaponArr:
+		var spirit_data = Global_Model.BattleCharacters.WeaponArr[spirit_id]
+		items.append(
+			battle_scene.battle_ui_root.build_spirit_menu_item(
+				str(spirit_id),
+				str(spirit_data.displayName),
+				false
+			)
+		)
+	return items
+
+func _refresh_turn_order_bar(round_action_order: Array) -> void:
+	var entries: Array = []
+
+	for character in round_action_order:
+		if character == null:
+			continue
+		if character.died:
+			continue
+
+		entries.append({
+			"id": str(character.index),
+			"display_name": character.display_name,
+			"is_player": character.control
+		})
+
+	EventManager.push_event(UIBattleEventNames.TURN_ORDER_SET, {
+		"entries": entries
+	})
+
+func _highlight_turn_order_character(character: Battle_Character) -> void:
+	if character == null:
+		return
+
+	EventManager.push_event(UIBattleEventNames.TURN_ORDER_HIGHLIGHT, {
+		"entry_id": str(character.index)
+	})
+
+func _clear_turn_order_bar() -> void:
+	EventManager.push_event(UIBattleEventNames.TURN_ORDER_CLEAR, {})
+
+func _on_ui_menu_item_selected(payload: Dictionary) -> void:
+	if not ui_turn_active:
+		return
+
+	var menu_id := str(payload.get("menu_id", ""))
+	var item_id := str(payload.get("item_id", ""))
+	var item_meta: Dictionary = payload.get("item_meta", {})
+
+	if menu_id == UIBattleEventNames.MENU_ID_SPIRIT_SELECT:
+		ui_selected_spirit_id = str(item_meta.get(UIBattleEventNames.MENU_META_SPIRIT_ID, item_id))
+		battle_scene.select_character_weapon(int(ui_selected_spirit_id))
+		battle_scene.battle_ui_root.show_top_level_select_menu(
+			_get_player_menu_position(Global_Model.current_character.index),
+			ui_selected_spirit_id
+		)
+		return
+
+	if menu_id == UIBattleEventNames.MENU_ID_TOP_LEVEL_SELECT:
+		if item_id == UIBattleEventNames.MENU_ITEM_BASIC_ATTACK:
+			selected_ability_index = _find_basic_attack_ability_index(int(ui_selected_spirit_id))
+			var action_context := battle_scene.battle_ui_root.build_basic_attack_action_context(ui_selected_spirit_id)
+			_show_target_select_for_current_action(action_context)
+			return
+
+		if item_id == UIBattleEventNames.MENU_ITEM_SPIRIT_SKILL:
+			battle_scene.battle_ui_root.show_skill_select_menu(
+				_build_skill_menu_items(int(ui_selected_spirit_id)),
+				_get_player_menu_position(Global_Model.current_character.index),
+				ui_selected_spirit_id
+			)
+			return
+
+		if item_id == UIBattleEventNames.MENU_ITEM_ESCAPE:
+			_clear_turn_order_bar()
+			_finish_player_ui_turn()
+			fsm.change_state(Main.States.Runaway)
+			return
+
+	if menu_id == UIBattleEventNames.MENU_ID_SKILL_SELECT:
+		selected_ability_index = int(item_meta.get(UIBattleEventNames.MENU_META_ABILITY_INDEX, int(item_id)))
+		selected_echo_action_record = {}
+		_set_selected_action_sequence_main_only()
+
+		var selected_ability: abilities_data = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[selected_ability_index]
+		var action_context := battle_scene.battle_ui_root.build_skill_action_context(
+			ui_selected_spirit_id,
+			selected_ability_index,
+			false,
+			""
+		)
+
+		if is_self_target_ability(selected_ability):
+			attacktarget = Global_Model.current_character
+			current_ability = selected_ability
+			targetView = battle_scene.our_team_character[attacktarget.index]
+
+			current_action_record = echo_system.create_action_record(
+				Global_Model.current_character,
+				attacktarget,
+				current_ability,
+				false
+			)
+
+			await execute_selected_action_sequence()
+
+			_finish_player_ui_turn()
+			return
+
+		_show_target_select_for_current_action(action_context)
+
+func _on_ui_menu_sequence_confirmed(payload: Dictionary) -> void:
+	if not ui_turn_active:
+		return
+
+	var item_meta: Dictionary = payload.get("item_meta", {})
+	var order_key := str(payload.get("order_key", ""))
+
+	selected_ability_index = int(item_meta.get(UIBattleEventNames.MENU_META_ABILITY_INDEX, -1))
+	selected_echo_action_record = available_echo_action_record.duplicate(true)
+	_set_selected_action_sequence_with_echo(order_key)
+
+	var action_context := battle_scene.battle_ui_root.build_skill_action_context(
+		ui_selected_spirit_id,
+		selected_ability_index,
+		true,
+		order_key
+	)
+
+	_show_target_select_for_current_action(action_context)
+
+func _on_ui_target_selection_canceled(payload: Dictionary) -> void:
+	if not ui_turn_active:
+		return
+
+	var action_context: Dictionary = payload.get(UIBattleEventNames.TARGET_KEY_ACTION_CONTEXT, {})
+	_restore_player_menu_from_action_context(action_context)
+
+func _on_ui_target_selected(payload: Dictionary) -> void:
+	if not ui_turn_active:
+		return
+
+	var target_id := int(payload.get(UIBattleEventNames.TARGET_KEY_TARGET_ID, -1))
+	var action_context: Dictionary = payload.get(UIBattleEventNames.TARGET_KEY_ACTION_CONTEXT, {})
+
+	current_ability = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[selected_ability_index]
+	attacktarget = _find_battle_character_by_index(target_id)
+	if attacktarget == null:
+		return
+	if not battle_scene.enemy_team_character.has(target_id):
+		return
+	targetView = battle_scene.enemy_team_character[target_id]
+
+	if not bool(action_context.get(UIBattleEventNames.ACTION_CONTEXT_USE_ECHO, false)):
+		selected_echo_action_record = {}
+		_set_selected_action_sequence_main_only()
+
+	current_action_record = echo_system.create_action_record(
+		Global_Model.current_character,
+		attacktarget,
+		current_ability,
+		false
+	)
+
+	await execute_selected_action_sequence()
+
+	_finish_player_ui_turn()
+
+func _clear_battle_log() -> void:
+	EventManager.push_event(UIBattleEventNames.LOG_CLEAR, {})
+
+func _append_turn_start_log(unit_name: String) -> void:
+	EventManager.push_event(UIBattleEventNames.LOG_APPEND, {
+		"log_key": UIBattleEventNames.LOG_KEY_TURN_START,
+		"unit_name": unit_name
+	})
+
+func _append_skill_cast_log(source_name: String, target_name: String, skill_name: String) -> void:
+	EventManager.push_event(UIBattleEventNames.LOG_APPEND, {
+		"log_key": UIBattleEventNames.LOG_KEY_SKILL_CAST,
+		"source_name": source_name,
+		"target_name": target_name,
+		"skill_name": skill_name
+	})
+
+func _append_damage_log(source_name: String, target_name: String, damage: int) -> void:
+	EventManager.push_event(UIBattleEventNames.LOG_APPEND, {
+		"log_key": UIBattleEventNames.LOG_KEY_DAMAGE,
+		"source_name": source_name,
+		"target_name": target_name,
+		"damage": damage
+	})
+
+func _append_death_log(target_name: String) -> void:
+	EventManager.push_event(UIBattleEventNames.LOG_APPEND, {
+		"log_key": UIBattleEventNames.LOG_KEY_DEATH,
+		"target_name": target_name
+	})
+
+func _append_echo_gain_log(amount: int) -> void:
+	EventManager.push_event(UIBattleEventNames.LOG_APPEND, {
+		"log_key": UIBattleEventNames.LOG_KEY_ECHO_GAIN,
+		"amount": amount
+	})
+
+func _append_echo_use_log(amount: int) -> void:
+	EventManager.push_event(UIBattleEventNames.LOG_APPEND, {
+		"log_key": UIBattleEventNames.LOG_KEY_ECHO_USE,
+		"amount": amount
+	})
+
+func _find_basic_attack_ability_index(spirit_id: int) -> int:
+	for ability_index in Global_Model.BattleCharacters.WeaponArr[spirit_id].abilities:
+		var ability = Global_Model.BattleCharacters.WeaponArr[spirit_id].abilities[ability_index]
+		if ability.abCooldown == 0:
+			return ability_index
+	return -1
+
+func _get_alive_enemy_target_ids() -> Array:
+	var ids: Array = []
+	for character in Global_Model.BattleCharacters.CharacterArr:
+		if not character.control and not character.died:
+			ids.append(character.index)
+	return ids
+
+func _find_battle_character_by_index(character_index: int) -> Battle_Character:
+	for character in Global_Model.BattleCharacters.CharacterArr:
+		if character.index == character_index:
+			return character
+	return null
+
+func _build_skill_menu_items(
+	spirit_id: int,
+	selected_ability: int = -1,
+	echo_bound_ability: int = -1,
+	_order_key: String = ""
+) -> Array:
+	var items: Array = []
+	var weapon_data = Global_Model.BattleCharacters.WeaponArr[spirit_id]
+
+	available_echo_action_record = {}
+	if echo_system.can_insert_echo(Global_Model.echonum):
+		available_echo_action_record = echo_system.get_previous_round_action()
+
+	for ability_index in weapon_data.abilities:
+		var ability = weapon_data.abilities[ability_index]
+		if ability.abCooldown == 0:
+			continue
+
+		var slot_text := ""
+		var slot_state := ""
+
+		if ability_index == echo_bound_ability:
+			slot_text = "已插"
+			slot_state = UIBattleEventNames.MENU_SLOT_STATE_FILLED
+		elif Global_Model.echonum <= 0:
+			slot_text = "碎片不足"
+			slot_state = UIBattleEventNames.MENU_SLOT_STATE_NO_FRAGMENT
+		elif available_echo_action_record.is_empty():
+			slot_text = "不可用"
+			slot_state = UIBattleEventNames.MENU_SLOT_STATE_UNAVAILABLE
+		else:
+			slot_text = "[空]"
+			slot_state = UIBattleEventNames.MENU_SLOT_STATE_EMPTY
+
+		items.append(
+			battle_scene.battle_ui_root.build_skill_menu_item(
+				ability_index,
+				str(ability.displayname),
+				"冷却 %d" % ability.countDown,
+				"关键词：%s" % Keywords.get_keyword_name(ability.status),
+				slot_text,
+				slot_state,
+				ability.countDown != 0
+			)
+		)
+
+	return items
+
+func _get_player_character() -> Battle_Character:
+	for character in Global_Model.BattleCharacters.CharacterArr:
+		if character.control:
+			return character
+	return null
+
+func _refresh_player_hud() -> void:
+	var player := _get_player_character()
+	if player == null:
+		EventManager.push_event(UIBattleEventNames.PLAYER_HUD_HIDE, {})
+		return
+
+	EventManager.push_event(UIBattleEventNames.PLAYER_HUD_SET, {
+		"unit_name": player.display_name,
+		"current_hp": player.hp,
+		"max_hp": player.max_hp,
+		"shield_value": player.shield_hp
+	})
+
 func enter():
+	_bind_ui_events()
 	# 开战时清空回声记录
 	echo_system.reset_for_battle()
-	
+	_refresh_player_hud()
+	_clear_battle_log()
+
 	# 根据速度生成行动顺序表
 	var battle_action_list = Battle_Action_List.new()
 	battle_action_list.action_list_by_speed()
@@ -56,6 +441,7 @@ func enter():
 	while 1:
 		var round_action_order = Global_Model.BattleCharacters.CharacterArr.duplicate()
 		current_round_action_order = round_action_order
+		_refresh_turn_order_bar(round_action_order)
 		
 		# 新回合开始时清空本回合候选记录
 		echo_system.begin_round()
@@ -67,7 +453,8 @@ func enter():
 			var character = round_action_order[turn_index]
 			current_turn_index = turn_index
 			Global_Model.current_character = character
-
+			_highlight_turn_order_character(character)
+			
 			# 已死亡单位直接跳过本回合行动
 			if character.died:
 				print("[跳过行动] %s 已死亡" % character.display_name)
@@ -83,9 +470,8 @@ func enter():
 				characterView.forward()
 				if conutNum != 0:
 					await change_abilities_countdown()
-				# 弹出菜单让玩家选择
-				await aiden_start_select_weapon()
-				await aiden_start_select_action()
+				# 通过事件驱动 UI 让玩家完成本次行动选择
+				await start_player_turn_via_ui(character)
 				on_character_turn_end(character)
 				characterView.backward()
 				
@@ -105,9 +491,11 @@ func enter():
 		echo_system.end_round()
 
 		if is_group_died_all(battle_scene.enemy_team_character):
+			_clear_turn_order_bar()
 			fsm.change_state(Main.States.Win)
 			break
 		elif is_group_died_all(battle_scene.our_team_character):
+			_clear_turn_order_bar()
 			fsm.change_state(Main.States.Lose)
 			break
 			
@@ -120,6 +508,7 @@ func on_character_turn_start(character: Battle_Character):
 	format_keyword_list(character.states),
 	format_runtime_list(character.keyword_runtimes)
 ])
+	_append_turn_start_log(character.display_name)
 
 # 当前单位行动结束时的状态结算
 func on_character_turn_end(character: Battle_Character):
@@ -138,7 +527,9 @@ func on_character_turn_end(character: Battle_Character):
 			character.hp,
 			character.max_hp
 		])
-	
+		
+		if character.control:
+			_refresh_player_hud()
 	resolve_expiring_shields_for_caster(character)
 
 	for tarGet in Global_Model.BattleCharacters.CharacterArr:
@@ -158,6 +549,8 @@ func on_character_turn_end(character: Battle_Character):
 						Keywords.get_keyword_name(runtime.keyword)
 					])
 					Keywords.remove_keyword_from_target(tarGet, runtime.keyword)
+	if character.control:
+		_refresh_player_hud()
 
 # 护盾持续时间结束时清除
 func resolve_expiring_shields_for_caster(character: Battle_Character) -> void:
@@ -182,7 +575,9 @@ func resolve_expiring_shields_for_caster(character: Battle_Character) -> void:
 				target.shield_hp
 			])
 			target.clear_shield()
-
+			
+			if target.control:
+				_refresh_player_hud()
 # 把目标在“当前回合行动队列”中向后延一格
 func delay_target_one_slot_in_current_round(tarGet: Battle_Character, round_action_order: Array, turn_index: int):
 	var target_index = round_action_order.find(tarGet)
@@ -201,6 +596,8 @@ func delay_target_one_slot_in_current_round(tarGet: Battle_Character, round_acti
 	round_action_order[target_index] = next_character
 
 	print("[行动延后] 目标=%s 新的index=%d" % [tarGet.display_name, target_index + 1])
+	_refresh_turn_order_bar(round_action_order)
+	_highlight_turn_order_character(Global_Model.current_character)
 
 # 联动成功后，尝试给予轮回碎片
 func try_grant_fragment_for_synergy(target: Battle_Character, synergy_key: String, is_echo_action: bool) -> void:
@@ -226,6 +623,7 @@ func try_grant_fragment_for_synergy(target: Battle_Character, synergy_key: Strin
 	fragment_awarded_this_round = true
 	fragment_rewarded_target_indices.append(target.index)
 	Global_Model.echonum += 1
+	_append_echo_gain_log(1)
 
 	print("[获得碎片] 联动=%s 目标=%s 当前碎片=%d" % [
 		synergy_key,
@@ -265,8 +663,13 @@ func enemy_start_attack(character:Battle_Character):
 
 	targetView = battle_scene.our_team_character[attacktarget.index]
 
-	
 	print("[使用技能] %s -> %s" % [character.display_name, current_ability.displayname])
+	_append_skill_cast_log(
+		character.display_name,
+		attacktarget.display_name,
+		current_ability.displayname
+	)
+
 	if current_ability != null:
 		await calcDmg()
 		await finalize_current_action_target()
@@ -347,7 +750,15 @@ func calcDmg():
 
 			var hp_damage = attacktarget.apply_damage_to_shield_and_hp(damage_value)
 			var absorbed_damage = damage_value - hp_damage
+			if hp_damage > 0:
+				_append_damage_log(
+					Global_Model.current_character.display_name,
+					attacktarget.display_name,
+					hp_damage
+				)
 
+			if attacktarget.control:
+				_refresh_player_hud()
 			print("[受伤结算] %s 护盾吸收=%d 实际扣血=%d 剩余护盾=%d 剩余hp=%d" % [
 				attacktarget.display_name,
 				absorbed_damage,
@@ -387,50 +798,14 @@ func calcDmg():
 		current_ability.countDown = current_ability.abCooldown
 		apply_self_target_ability_extra_effects(self_target, current_ability.displayname)
 		Keywords.apply_ability_keyword(self_target, current_ability.status, Global_Model.current_character)
+		
+		if self_target.control:
+			_refresh_player_hud()
 
 	# 整条动作结束后再提交记录
 	if not current_action_record.is_empty():
 		echo_system.commit_action_record(current_action_record)
 		current_action_record = {}
-
-# 让玩家决定本次是否启用回声
-func select_echo_usage() -> bool:
-	var selection := {"use_echo": false}
-
-	battle_scene.battle_menu.open()
-	battle_scene.battle_menu.title.text = "是否使用回声"
-
-	battle_scene.battle_menu.item("不使用回声", func():
-		Audio.play_menu_item_sfx()
-		selection["use_echo"] = false
-	)
-
-	battle_scene.battle_menu.item("使用回声", func():
-		Audio.play_menu_item_sfx()
-		selection["use_echo"] = true
-	)
-
-	await battle_scene.battle_menu.finished
-	return selection["use_echo"]
-
-# 让玩家选择本次行动顺序
-func select_action_sequence_with_echo(main_ability_name: String) -> void:
-	selected_action_sequence.clear()
-
-	battle_scene.battle_menu.open()
-	battle_scene.battle_menu.title.text = "请选择释放顺序"
-
-	battle_scene.battle_menu.item("%s -> 回声·复刻" % main_ability_name, func():
-		Audio.play_menu_item_sfx()
-		selected_action_sequence = ["main", "echo"]
-	)
-
-	battle_scene.battle_menu.item("回声·复刻 -> %s" % main_ability_name, func():
-		Audio.play_menu_item_sfx()
-		selected_action_sequence = ["echo", "main"]
-	)
-
-	await battle_scene.battle_menu.finished
 
 # 统一处理本次动作结束后的目标收尾
 func finalize_current_action_target() -> void:
@@ -442,6 +817,8 @@ func finalize_current_action_target() -> void:
 		if not attacktarget.died:
 			print("[动作收尾] 目标死亡=%s" % attacktarget.display_name)
 			attacktarget.died = true
+			_append_death_log(attacktarget.display_name)
+			
 			await targetView.tint()
 			targetView.hide()
 	else:
@@ -450,6 +827,13 @@ func finalize_current_action_target() -> void:
 
 # 按顺序执行本次玩家行动
 func execute_selected_action_sequence() -> void:
+	if current_ability != null and attacktarget != null:
+		_append_skill_cast_log(
+			Global_Model.current_character.display_name,
+			attacktarget.display_name,
+			current_ability.displayname
+		)
+
 	for action_key in selected_action_sequence:
 		if action_key == "main":
 			await calcDmg()
@@ -467,6 +851,7 @@ func execute_selected_echo() -> void:
 	if Global_Model.echonum > 0:
 		Global_Model.echonum -= 1
 		print("[回声消耗] 剩余碎片=%d" % Global_Model.echonum)
+		_append_echo_use_log(1)
 
 	if is_invalid_resolution_target(attacktarget):
 		print("[回声结算] 当前目标无效，跳过回声")
@@ -514,6 +899,12 @@ func execute_selected_echo() -> void:
 
 		var hp_damage = attacktarget.apply_damage_to_shield_and_hp(damage_value)
 		var absorbed_damage = damage_value - hp_damage
+		if hp_damage > 0:
+			_append_damage_log(
+				Global_Model.current_character.display_name,
+				attacktarget.display_name,
+				hp_damage
+			)
 
 		print("[回声受伤结算] %s 护盾吸收=%d 实际扣血=%d 剩余护盾=%d 剩余hp=%d" % [
 			attacktarget.display_name,
@@ -556,150 +947,3 @@ func execute_selected_echo() -> void:
 					current_round_action_order,
 					current_turn_index
 				)
-
-
-func aiden_start_select_weapon():
-	battle_scene.battle_menu.open()
-	battle_scene.battle_menu.title.text = "请选择要使用的器灵"
-	for weap in Global_Model.BattleCharacters.WeaponArr:
-		battle_scene.battle_menu.item(Global_Model.BattleCharacters.WeaponArr[weap].displayName,func():
-			Audio.play_menu_item_sfx()
-			#print(Global_Model.BattleCharacters.WeaponArr[weap].displayName)
-			battle_scene.select_character_weapon(weap)
-		)
-		
-	await battle_scene.battle_menu.finished
-	
-
-func aiden_start_select_action():
-	battle_scene.battle_menu.open()
-	battle_scene.battle_menu.title.text = "请选择动作"
-	selected_echo_action_record = {}
-	selected_action_sequence.clear()
-
-	for i in Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities:
-		print("[技能冷却] %s 剩余=%d" % [
-			Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[i].displayname,
-			Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[i].countDown
-		])
-		if Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[i].countDown == 0:
-			battle_scene.battle_menu.item(Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[i].displayname,
-			func():
-				Audio.play_menu_item_sfx()
-				#print(Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[i].displayname)
-				selected_ability_index = i
-				)
-		
-	await battle_scene.battle_menu.finished
-	available_echo_action_record = {}
-
-	var can_use_echo := echo_system.can_insert_echo(Global_Model.echonum)
-	if can_use_echo:
-		available_echo_action_record = echo_system.get_previous_round_action()
-
-	print("[回声检查] 碎片=%d 可用=%s 上回合记录=%s" % [
-		Global_Model.echonum,
-		str(can_use_echo),
-		available_echo_action_record
-	])
-	
-	if not available_echo_action_record.is_empty():
-		print("[回声预览] 技能=%s 目标索引=%d 基础伤害=%d 段数=%d" % [
-			available_echo_action_record["ability_name"],
-			available_echo_action_record["target_index"],
-			int(available_echo_action_record["ability_base_damage"]),
-			int(available_echo_action_record["ability_attack_count"])
-		])
-		
-	if not available_echo_action_record.is_empty():
-		var current_selected_ability = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[selected_ability_index]
-		var is_same_target_type: bool = current_selected_ability.target == bool(available_echo_action_record["ability_target_is_self"])
-
-		if is_same_target_type:
-			var should_use_echo := await select_echo_usage()
-			if should_use_echo:
-				selected_echo_action_record = available_echo_action_record.duplicate(true)
-				print("[回声选择] 本次启用回声=%s" % selected_echo_action_record["ability_name"])
-			else:
-				print("[回声选择] 本次不使用回声")
-		else:
-			print("[回声选择] 目标类型不一致，暂不允许插入回声")
-
-	
-	# 根据本次选择生成真正的执行顺序
-	var preview_selected_ability = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[selected_ability_index]
-
-	if selected_echo_action_record.is_empty():
-		selected_action_sequence.append("main")
-	else:
-		await select_action_sequence_with_echo(preview_selected_ability.displayname)
-
-	var action_sequence_preview: Array[String] = []
-	for action_key in selected_action_sequence:
-		if action_key == "main":
-			action_sequence_preview.append(preview_selected_ability.displayname)
-		elif action_key == "echo":
-			action_sequence_preview.append("回声·复刻")
-
-	print("[行动序列预览] %s" % [" -> ".join(action_sequence_preview)])
-	print("[行动序列数据] %s" % [selected_action_sequence])
-
-	await aiden_start_select_target(selected_ability_index)	
-
-func aiden_start_select_target(index:int):
-	var selected_ability = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[index]
-
-	if is_self_target_ability(selected_ability):
-		attacktarget = Global_Model.current_character
-		current_ability = selected_ability
-		targetView = battle_scene.our_team_character[attacktarget.index]
-
-		# 创建当前动作记录
-		current_action_record = echo_system.create_action_record(
-			Global_Model.current_character,
-			attacktarget,
-			current_ability,
-			false
-		)
-
-		print("[使用技能] 艾登 -> %s" % current_ability.displayname)
-		await execute_selected_action_sequence()
-		return
-
-
-	battle_scene.battle_menu.open()
-	battle_scene.battle_menu.title.text = "请选择目标"
-	
-	for character in Global_Model.BattleCharacters.CharacterArr:
-		if character.control == false and character.died == false:
-			battle_scene.battle_menu.item(character.display_name,
-			func():
-				Audio.play_menu_item_sfx()
-				selected_target_index = character.index
-				#print(character.display_name)
-				)
-	await battle_scene.battle_menu.finished
-	battle_scene.battle_menu.hide()
-	for i in Global_Model.BattleCharacters.CharacterArr:
-		if i.index == selected_target_index:
-			attacktarget = i
-	current_ability = Global_Model.BattleCharacters.WeaponArr[Global_Model.current_character.weapId].abilities[index]
-	targetView = battle_scene.enemy_team_character[selected_target_index]
-	
-	# 创建当前动作记录
-	current_action_record = echo_system.create_action_record(
-		Global_Model.current_character,
-		attacktarget,
-		current_ability,
-		false
-	)
-
-	print("[使用技能] 艾登 -> %s" % current_ability.displayname)
-	
-	await execute_selected_action_sequence()
-	
-		
-		
-	
-			
-		

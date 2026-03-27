@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://d2s00f4fkxmw0"]
+
+[ext_resource type="Script" uid="uid://uj16aksh63gb" path="res://scripts/battle_module/UI/ui_target_select_overlay.gd" id="1_pp8qo"]
+
+[node name="TargetSelectOverlay" type="Control" unique_id=391663743]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pp8qo")
+
+[node name="HintLabel" type="Label" parent="." unique_id=369208019]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 29.0
+offset_right = 944.0
+offset_bottom = 52.0
+text = "请选择目标"
+horizontal_alignment = 1
