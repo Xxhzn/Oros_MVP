@@ -1,3 +1,5 @@
+extends Resource
+
 class_name WeaponData
 
 enum WeaponType {
@@ -16,7 +18,6 @@ enum WeaponType {
 @export var weapon_name: String = "武器"       					## UI显示名称
 @export var skill_type: WeaponType = WeaponType.NONE			## 武器类型
 @export_multiline var description: String = "武器描述..." 		## UI显示描述
-@export var is_melee: bool = true								## 是否是近战
 
 @export_group("视觉与音效")
 @export var icon: Texture2D = null 								## 武器图标
@@ -25,4 +26,4 @@ enum WeaponType {
 @export var post_cast_delay: float = 0.0						## 释放后延迟
 
 ## 武器技能
-var ablities:Dictionary[int,SkillData] = {}
+var skills: Dictionary[StringName, SkillData] = {}

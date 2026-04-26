@@ -12,7 +12,7 @@ class_name CharacterData
 # 角色描述
 @export_multiline var description: String = ""
 
-## 角色视觉表现
+## 角色在战斗中的视觉表现
 @export_group("视觉表现")
 # 角色动画库
 @export var animation_library : AnimationLibrary		
@@ -26,31 +26,23 @@ class_name CharacterData
 # 是否为玩家 true=玩家，false=敌人
 @export var is_player: bool = true  
 
-## 战斗属性
-@export_category("战斗属性")
-# 最大HP
-@export var max_hp: int = 100
-# 当前HP
-@export var hp: int = 100
-# 攻击力
-@export var dmg: int = 10
-# 速度
-@export var speed: int = 50
+## 属性
+# 体质
+@export var vitality: int  = 1
+# 力量
+@export var strength: int = 1
+# 耐力
+@export var stam: int = 1
+# 智力
+@export var intelligen: int = 1
+# 敏捷
+@export var agility: int = 1
+# 幸运
+@export var lucky: int = 1
 
-## 战斗状态
-@export_category("战斗状态")
-# 是否死亡
-@export var is_died: bool = false
-# 本回合是否已行动
-@export var acted: bool = false  
-# 是否可操作
-@export var is_controllable: bool = true  
-
-## 技能和装备
-@export_category("技能装备")
-# 器灵id
-@export var weapon_id: StringName = ""
-# 器灵技能组	技能ID -> 技能数据
-var abilities: Dictionary[StringName,SkillData] = {} 
-# 当前状态效果
-var states: Array = [] 
+## 战斗信息
+var character_battle: CharacterDataBattle
+## 状态信息
+var character_status: Dictionary[StringName,CharacterDataStatus] = {}
+## 技能信息
+var character_weapon: WeaponData

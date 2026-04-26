@@ -29,7 +29,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_core_system-main/plugin.cfg", "res://addons/qframework/framework/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
+enabled=PackedStringArray("res://addons/qframework/framework/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
 
 [input]
 
