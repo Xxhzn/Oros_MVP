@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://pj5lnxr1ga7m"]
+
+[ext_resource type="Script" uid="uid://ctuj477riw2uc" path="res://scenes/battle_scene/battle_scene.gd" id="1_oofy8"]
+[ext_resource type="MeshLibrary" uid="uid://d2fycdfi1a5ay" path="res://resources/battle_data_tres/floor_wood.tres" id="2_joy3q"]
+[ext_resource type="SpriteFrames" uid="uid://cr436rpglim1p" path="res://resources/characters_data_tres/player_aiden.tres" id="4_gp27x"]
+[ext_resource type="Script" uid="uid://cnq83a6b0w2lr" path="res://scenes/battle_scene/character.gd" id="4_t2c54"]
+
+[sub_resource type="Environment" id="Environment_joy3q"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_t2c54"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4jw7k"]
+size = Vector3(16.938477, 0.1, 12.729828)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dle0h"]
+radius = 0.09667969
+height = 0.25335693
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qc2rq"]
+
+[node name="BattleScene" type="Node3D" unique_id=1264019460]
+script = ExtResource("1_oofy8")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1063814365]
+transform = Transform3D(0.9998351, 0.0004104445, -0.018159179, 0.0024269922, 0.98776126, 0.15595488, 0.018000944, -0.15597324, 0.9875973, 0.21612725, 0.9362786, 11.948387)
+fov = 64.9664
+
+[node name="Environment" type="Node3D" parent="." unique_id=473109251]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=1875894666]
+environment = SubResource("Environment_joy3q")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=758036103]
+transform = Transform3D(1, 0, 0, 0, 0.7635594, 0.6457376, 0, -0.6457376, 0.7635594, 0, 2.7748837, 12.147474)
+shadow_bias = 0.05
+shadow_normal_bias = 0.1
+
+[node name="Ground" type="StaticBody3D" parent="Environment" unique_id=1447052539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.365311)
+
+[node name="GridMap" type="GridMap" parent="Environment/Ground" unique_id=226888486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.365311)
+mesh_library = ExtResource("2_joy3q")
+physics_material = SubResource("PhysicsMaterial_t2c54")
+cell_size = Vector3(2, 1, 2)
+data = {
+"cells": PackedInt32Array(65535, 2, 1441793, 1, 2, 1441793, 1, 4, 1441793, 65535, 4, 1441793, 65535, 6, 1441793, 1, 6, 1441793, 65533, 6, 1441793, 65533, 4, 1441793, 3, 2, 1441793, 3, 4, 1441793, 3, 5, 0, 2, 5, 0, 2, 6, 0, 3, 6, 1441793, 0, 6, 0, 65534, 6, 0, 65533, 1, 3, 65535, 1, 3, 3, 1, 3, 1, 1, 4, 65532, 2, 1441796, 65532, 4, 1441796, 4, 2, 1441796, 4, 4, 1441796, 65533, 2, 1441793)
+}
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Ground" unique_id=1041793489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0229492, 0, 18.465513)
+shape = SubResource("BoxShape3D_4jw7k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Ground" unique_id=942969115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.736227)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1208191000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.3127364, -1.2543645, 0.871052, 9.932128)
+shaded = true
+texture_filter = 2
+sprite_frames = ExtResource("4_gp27x")
+animation = &"new_animation"
+autoplay = "new_animation"
+frame_progress = 0.03895093
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AnimatedSprite3D" unique_id=1621567775]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatedSprite3D/StaticBody3D" unique_id=1517757579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.007848501, 0)
+shape = SubResource("CapsuleShape3D_dle0h")
+
+[node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="." unique_id=1579993865]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1355273, 0.72510916, 9.33503)
+flip_h = true
+texture_filter = 1
+sprite_frames = ExtResource("4_gp27x")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.9339795
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AnimatedSprite3D2" unique_id=661692137]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatedSprite3D2/StaticBody3D" unique_id=2070865649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.007848501, 0)
+shape = SubResource("CapsuleShape3D_dle0h")
+
+[node name="AnimatedSprite3D3" type="AnimatedSprite3D" parent="." unique_id=2093761562]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2177387, 0.6880718, 10.739439)
+flip_h = true
+texture_filter = 1
+sprite_frames = ExtResource("4_gp27x")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.045757353
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AnimatedSprite3D3" unique_id=91028802]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatedSprite3D3/StaticBody3D" unique_id=611595943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.007848501, 0)
+shape = SubResource("CapsuleShape3D_dle0h")
+
+[node name="Character" type="Node3D" parent="." unique_id=2032405152]
+script = ExtResource("4_t2c54")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Character" unique_id=294243057]
+sprite_frames = ExtResource("4_gp27x")
+animation = &"Swordsman_run"
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Character/AnimatedSprite3D" unique_id=143435734]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Character/AnimatedSprite3D/StaticBody3D" unique_id=1602582329]
+shape = SubResource("CapsuleShape3D_qc2rq")
