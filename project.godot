@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Audio="*uid://bbfiihu78n7nk"
-EventManager="*res://scripts/event/event_manager.gd"
+EventManager="*uid://xnpqc2wbo3la"
+CoreSystem="*uid://cbspmadydncps"
 
 [display]
 

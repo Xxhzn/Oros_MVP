@@ -2,6 +2,6 @@
 @abstract
 class_name AbstractBattleState extends EasyFSMState
 
-var battle_scene:Main:
-	get: return target as Main
+var battle_scene:Battle_Scene:
+	get: return target as Battle_Scene
 	
