@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cn1ppsk5ymtck"]
+
+[ext_resource type="Script" uid="uid://tieohtfi32mv" path="res://scripts/battle_module/UI/ui_status_column.gd" id="1_1qdmy"]
+
+[node name="StatusColumn" type="VBoxContainer" unique_id=1207646673]
+theme_override_constants/separation = 4
+script = ExtResource("1_1qdmy")

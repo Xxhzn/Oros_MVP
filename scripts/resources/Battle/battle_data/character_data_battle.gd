@@ -8,17 +8,17 @@ class_name CharacterDataBattle
 # 当前HP
 @export var hp: int = 100
 # 物理攻击力  由基础属性中的力量计算得来
-@export var physical_dmg = 1
+@export var phys_atk = 1
 # 魔法攻击力  由基础属性中的智力计算得来
-@export var magic_dmg = 1
-# 防御  由基础属性中的耐力计算得来
-@export var defence: int = 1
+@export var mag_atk = 1
+# 物理防御  由基础属性中的耐力计算得来
+@export var phys_def: int = 1
 # 魔法防御  由基础属性中的耐力计算得来
-@export var magic_defence: int = 1
+@export var mag_def: int = 1
 # 速度  由基础属性中的敏捷计算得来
 @export var speed: int = 50
 # 暴击  由基础属性中的幸运计算得来
-@export var crit: int = 1
+@export var crit_rate: int = 1
 
 ## 战斗状态
 @export_category("战斗状态")

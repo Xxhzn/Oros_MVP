@@ -28,17 +28,17 @@ class_name CharacterData
 
 ## 属性
 # 体质
-@export var vitality: int  = 1
+@export var constitution: int  = 1
 # 力量
 @export var strength: int = 1
 # 耐力
-@export var stam: int = 1
+@export var stamina: int = 1
 # 智力
-@export var intelligen: int = 1
+@export var intelligence: int = 1
 # 敏捷
 @export var agility: int = 1
 # 幸运
-@export var lucky: int = 1
+@export var luck: int = 1
 
 ## 战斗信息
 var character_battle: CharacterDataBattle

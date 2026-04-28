@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://6nm0ppso53k3"]
+
+[ext_resource type="Script" uid="uid://db83hgmbuvadn" path="res://scripts/battle_module/UI/ui_unit_status_panel.gd" id="1_383uu"]
+
+[node name="UnitStatusPanel" type="Control" unique_id=759837903]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 200.0
+script = ExtResource("1_383uu")
+
+[node name="Content" type="MarginContainer" parent="." unique_id=276863684]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 200.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="LayoutRoot" type="VBoxContainer" parent="Content" unique_id=1963940461]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="Content/LayoutRoot" unique_id=1201325169]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="BarRoot" type="Control" parent="Content/LayoutRoot" unique_id=1826407911]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+
+[node name="BarBackground" type="ColorRect" parent="Content/LayoutRoot/BarRoot" unique_id=331872133]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="HpFill" type="ColorRect" parent="Content/LayoutRoot/BarRoot" unique_id=2028497056]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 28.0
+color = Color(0.84705883, 0.35686275, 0.35686275, 1)
+
+[node name="ShieldFill" type="ColorRect" parent="Content/LayoutRoot/BarRoot" unique_id=86202879]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 220.0
+offset_bottom = 28.0
+color = Color(0.43529412, 0.7176471, 1, 1)
+
+[node name="ValueLabel" type="Label" parent="Content/LayoutRoot/BarRoot" unique_id=525842270]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://cn10pfvhqfok3"]
+
+[ext_resource type="Script" uid="uid://dv5rr2w5q27fd" path="res://scripts/battle_module/UI/battle_ui_root.gd" id="1_3vrxq"]
+[ext_resource type="PackedScene" uid="uid://cjt1liutywsqn" path="res://scenes/battle/ui/battle_menu.tscn" id="1_8ffbv"]
+[ext_resource type="Script" uid="uid://0oj6ddbmnu81" path="res://scripts/battle_module/UI/ui_turn_order_bar.gd" id="2_0ub5v"]
+[ext_resource type="PackedScene" uid="uid://c71qp053p8brf" path="res://scenes/battle/ui/battle_log_panel.tscn" id="3_yn3mv"]
+[ext_resource type="PackedScene" uid="uid://6nm0ppso53k3" path="res://scenes/battle/ui/unit_status_panel.tscn" id="4_1h6vk"]
+[ext_resource type="PackedScene" uid="uid://d2s00f4fkxmw0" path="res://scenes/battle/ui/target_select_overlay.tscn" id="6_tr5io"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tr5io"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+
+[node name="BattleUIRoot" type="Control" unique_id=621329314]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3vrxq")
+
+[node name="TurnOrderArea" type="PanelContainer" parent="." unique_id=391082067]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 624.0
+offset_bottom = 104.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tr5io")
+script = ExtResource("2_0ub5v")
+
+[node name="ItemRoot" type="HBoxContainer" parent="TurnOrderArea" unique_id=435467557]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LogArea" parent="." unique_id=255734886 instance=ExtResource("3_yn3mv")]
+layout_mode = 0
+offset_left = 1360.0
+offset_top = 700.0
+offset_right = 1860.0
+offset_bottom = 1020.0
+
+[node name="PlayerHudArea" type="Control" parent="." unique_id=1280875817]
+anchors_preset = 0
+offset_left = 40.0
+offset_top = 760.0
+offset_right = 560.0
+offset_bottom = 1020.0
+
+[node name="PlayerStatusPanel" parent="PlayerHudArea" unique_id=1117934805 instance=ExtResource("4_1h6vk")]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 308.0
+offset_bottom = 208.0
+
+[node name="StatusLayer" type="Control" parent="." unique_id=1768005901]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FloatingCommandLayer" type="Control" parent="." unique_id=2085778089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BattleMenu" parent="FloatingCommandLayer" unique_id=162207502 instance=ExtResource("1_8ffbv")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 460.0
+offset_bottom = 520.0
+
+[node name="OverlayLayer" type="Control" parent="." unique_id=1843092967]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TargetSelectOverlay" parent="." unique_id=391663743 instance=ExtResource("6_tr5io")]
+layout_mode = 1

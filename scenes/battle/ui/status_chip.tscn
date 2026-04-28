@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://de0yv7pbo8qwb"]
+
+[ext_resource type="Script" uid="uid://dnecnemxatbdr" path="res://scripts/battle_module/UI/ui_status_chip.gd" id="1_xqqsf"]
+
+[node name="StatusChip" type="PanelContainer" unique_id=865253482]
+custom_minimum_size = Vector2(72, 24)
+offset_right = 72.0
+offset_bottom = 24.0
+script = ExtResource("1_xqqsf")
+
+[node name="Background" type="ColorRect" parent="." unique_id=640690426]
+layout_mode = 2
+color = Color(0, 0, 0, 0.65000004)
+
+[node name="TextLabel" type="Label" parent="." unique_id=1122728855]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
