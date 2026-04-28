@@ -22,7 +22,7 @@ class_name SkillData
 # 基础打断值
 @export var base_interrupt: int = 0
 # 是否可被打断
-@export var can_be_interrupt: bool = false
+@export var can_be_interrupted: bool = false
 # 被打断需要的打断值
 @export var int_thres: int = 0
 # 战势值消耗
