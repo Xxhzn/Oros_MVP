@@ -1,6 +1,14 @@
 extends Resource
 class_name CharacterDataBattle 
 
+## 基础信息
+# 等级
+@export var level: int = 1
+# 硬直点数
+@export var stagger_max: int = 0
+# 是否能被硬直
+@export var can_be_staggered: bool = false
+
 ## 战斗属性
 @export_category("战斗属性")
 # 最大HP  由基础属性中的体质计算得来

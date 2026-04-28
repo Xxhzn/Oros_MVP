@@ -14,6 +14,8 @@ var fsm:EasyFSM = EasyFSM.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
+	
 	pass
 	#fsm.add_state(BattlePrepareStates.new(States.Prepare,self,fsm))
 	#fsm.add_state(BattleLoopStates.new(States.Loop,self,fsm))

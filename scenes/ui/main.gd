@@ -15,14 +15,20 @@ var fsm:EasyFSM = EasyFSM.new()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
+	var util = Util.new()
+	var data = util.load_file("res://scripts/resources/battle/config/skills.json")
+	print("加载技能配置文件",data)
 	
-	fsm.add_state(BattlePrepareStates.new(States.Prepare,self,fsm))
-	fsm.add_state(BattleLoopStates.new(States.Loop,self,fsm))
-	fsm.add_state(BattleRunawayStates.new(States.Runaway,self,fsm))
-	fsm.add_state(BattleWinStates.new(States.Win,self,fsm))
-	fsm.add_state(BattleLoseStates.new(States.Lose,self,fsm))
+	data = util.load_file("res://scripts/resources/battle/config/skill_effects.json")
+	print("加载技能效果配置文件",data)
 	
-	fsm.start_state(States.Prepare)
+	#fsm.add_state(BattlePrepareStates.new(States.Prepare,self,fsm))
+	#fsm.add_state(BattleLoopStates.new(States.Loop,self,fsm))
+	#fsm.add_state(BattleRunawayStates.new(States.Runaway,self,fsm))
+	#fsm.add_state(BattleWinStates.new(States.Win,self,fsm))
+	#fsm.add_state(BattleLoseStates.new(States.Lose,self,fsm))
+	#
+	#fsm.start_state(States.Prepare)
 	
 
 func select_character_weapon(index:int):
