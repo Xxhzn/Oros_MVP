@@ -1,0 +1,241 @@
+{
+	"data": [
+		{
+			"const_key": "BTL_TL_REF_SPD",
+			"const_name": "参考速度",
+			"value_type": "int",
+			"value": 100,
+			"unit": "点",
+			"category": "timeline",
+			"used_by": "时间线公式",
+			"note": "对应时间线速度缩放中的参考速度"
+		},
+		{
+			"const_key": "BTL_TL_MIN_DLY_TU",
+			"const_name": "最小有效延迟",
+			"value_type": "int",
+			"value": 1,
+			"unit": "TU",
+			"category": "timeline",
+			"used_by": "时间线公式",
+			"note": "启动延迟与恢复延迟的最终结果下限"
+		},
+		{
+			"const_key": "BTL_TL_OPEN_GAP_MIN_TU",
+			"const_name": "开场最小间距",
+			"value_type": "int",
+			"value": 6,
+			"unit": "TU",
+			"category": "timeline",
+			"used_by": "开场落位公式",
+			"note": "动态开场间距计算后的下限"
+		},
+		{
+			"const_key": "BTL_TL_OPEN_GAP_MAX_TU",
+			"const_name": "开场最大间距",
+			"value_type": "int",
+			"value": 14,
+			"unit": "TU",
+			"category": "timeline",
+			"used_by": "开场落位公式",
+			"note": "动态开场间距计算后的上限"
+		},
+		{
+			"const_key": "BTL_TL_OPEN_GAP_BASE_TU",
+			"const_name": "开场基础间距",
+			"value_type": "int",
+			"value": 8,
+			"unit": "TU",
+			"category": "timeline",
+			"used_by": "开场落位公式",
+			"note": "动态间距公式中的基础间距起点"
+		},
+		{
+			"const_key": "BTL_TL_OPEN_GAP_SCALE",
+			"const_name": "开场分差间距系数",
+			"value_type": "float",
+			"value": 0.5,
+			"unit": "TU",
+			"category": "timeline",
+			"used_by": "开场落位公式",
+			"note": "相邻 Opening Score 分差转换为额外间距的系数"
+		},
+		{
+			"const_key": "BTL_STG_DMG_RATE",
+			"const_name": "硬直中受伤倍率",
+			"value_type": "float",
+			"value": 2,
+			"unit": "倍率",
+			"category": "stagger",
+			"used_by": "伤害结算",
+			"note": "当前原型阶段，目标处于硬直中时受到伤害翻倍"
+		},
+		{
+			"const_key": "BTL_STG_CLR_ON_ENTER",
+			"const_name": "进入硬直时是否清空当前硬直值",
+			"value_type": "bool",
+			"value": true,
+			"unit": "开关",
+			"category": "stagger",
+			"used_by": "硬直结算",
+			"note": "进入硬直后，累积条视为已结算，不再保留进入前的当前值"
+		},
+		{
+			"const_key": "BTL_STG_RST_ON_END",
+			"const_name": "硬直结束时是否重置当前硬直值",
+			"value_type": "bool",
+			"value": true,
+			"unit": "开关",
+			"category": "stagger",
+			"used_by": "硬直结算",
+			"note": "硬直结束后回到空条状态，重新开始下一轮累积"
+		},
+		{
+			"const_key": "BTL_STG_CANCEL_LAND",
+			"const_name": "进入硬直时是否取消已宣告未落地节点",
+			"value_type": "bool",
+			"value": true,
+			"unit": "开关",
+			"category": "stagger",
+			"used_by": "硬直结算、时间线刷新",
+			"note": "当前原型阶段，目标进入硬直时取消其已宣告但未落地的技能落地节点"
+		},
+		{
+			"const_key": "BTL_STG_RECALC_NEXT_ACT",
+			"const_name": "进入硬直时是否重算下一操作节点",
+			"value_type": "bool",
+			"value": true,
+			"unit": "开关",
+			"category": "stagger",
+			"used_by": "硬直结算、时间线刷新",
+			"note": "当前原型阶段，目标进入硬直后不保留原下一操作节点位置，按硬直规则重算"
+		},
+		{
+			"const_key": "BTL_MOR_MAX",
+			"const_name": "战势值上限",
+			"value_type": "int",
+			"value": 5,
+			"unit": "点",
+			"category": "morale",
+			"used_by": "战势值结算、UI显示",
+			"note": "当前原型阶段玩家阵营共享战势值上限"
+		},
+		{
+			"const_key": "BTL_MOR_GAIN_INT",
+			"const_name": "打断成功获得战势值",
+			"value_type": "int",
+			"value": 1,
+			"unit": "点",
+			"category": "morale",
+			"used_by": "战势值结算"
+		},
+		{
+			"const_key": "BTL_MOR_GAIN_STG",
+			"const_name": "使目标进入硬直获得战势值",
+			"value_type": "int",
+			"value": 1,
+			"unit": "点",
+			"category": "morale",
+			"used_by": "战势值结算"
+		},
+		{
+			"const_key": "BTL_MOR_GAIN_PUR",
+			"const_name": "追击命中获得战势值",
+			"value_type": "int",
+			"value": 0,
+			"unit": "点",
+			"category": "morale",
+			"used_by": "战势值结算",
+			"note": "当前原型阶段默认追击不产战势值"
+		},
+		{
+			"const_key": "BTL_CRIT_DMG_RATE",
+			"const_name": "暴击伤害倍率",
+			"value_type": "float",
+			"value": 2,
+			"unit": "倍率",
+			"category": "damage",
+			"used_by": "暴击伤害公式"
+		},
+		{
+			"const_key": "ATTR_MAX_HP_FROM_CON",
+			"const_name": "体质转最大HP公式",
+			"value_type": "json",
+			"value": "{\"source_attr\":\"constitution\",\"C\":18,\"A\":12,\"B\":0.08,\"level_index\":\"level-1\",\"round\":\"floor\",\"min\":1}",
+			"unit": "点",
+			"category": "attr_formula",
+			"used_by": "max_hp",
+			"note": "base_max_hp = constitution*C + (level-1)*A + (level-1)^2*B"
+		},
+		{
+			"const_key": "ATTR_PHYS_ATK_FROM_STR",
+			"const_name": "力量转物理攻击公式",
+			"value_type": "json",
+			"value": "{\"source_attr\":\"strength\",\"C\":2.2,\"A\":1.1,\"B\":0.01,\"level_index\":\"level-1\",\"round\":\"floor\",\"min\":1}",
+			"unit": "点",
+			"category": "attr_formula",
+			"used_by": "phys_atk",
+			"note": "base_phys_atk = strength*C + (level-1)*A + (level-1)^2*B"
+		},
+		{
+			"const_key": "ATTR_MAG_ATK_FROM_INT",
+			"const_name": "智力转魔法攻击公式",
+			"value_type": "json",
+			"value": "{\"source_attr\":\"intelligence\",\"C\":2.2,\"A\":1.1,\"B\":0.01,\"level_index\":\"level-1\",\"round\":\"floor\",\"min\":1}",
+			"unit": "点",
+			"category": "attr_formula",
+			"used_by": "mag_atk",
+			"note": "base_mag_atk = intelligence*C + (level-1)*A + (level-1)^2*B"
+		},
+		{
+			"const_key": "ATTR_PHYS_DEF_FROM_STA",
+			"const_name": "耐力转物理防御公式",
+			"value_type": "json",
+			"value": "{\"source_attr\":\"stamina\",\"C\":1.4,\"A\":0.65,\"B\":0.006,\"level_index\":\"level-1\",\"round\":\"floor\",\"min\":0}",
+			"unit": "点",
+			"category": "attr_formula",
+			"used_by": "phys_def",
+			"note": "base_phys_def = stamina*C + (level-1)*A + (level-1)^2*B"
+		},
+		{
+			"const_key": "ATTR_MAG_DEF_FROM_STA",
+			"const_name": "耐力转魔法防御公式",
+			"value_type": "json",
+			"value": "{\"source_attr\":\"stamina\",\"C\":1.4,\"A\":0.65,\"B\":0.006,\"level_index\":\"level-1\",\"round\":\"floor\",\"min\":0}",
+			"unit": "点",
+			"category": "attr_formula",
+			"used_by": "mag_def",
+			"note": "base_mag_def = stamina*C + (level-1)*A + (level-1)^2*B"
+		},
+		{
+			"const_key": "ATTR_SPEED_FROM_AGI",
+			"const_name": "敏捷转速度公式",
+			"value_type": "json",
+			"value": "{\"source_attr\":\"agility\",\"C\":10,\"A\":0.45,\"B\":0.002,\"level_index\":\"level-1\",\"round\":\"floor\",\"min\":1,\"soft_cap\":160}",
+			"unit": "点",
+			"category": "attr_formula",
+			"used_by": "speed",
+			"note": "base_speed = agility*C + (level-1)*A + (level-1)^2*B"
+		},
+		{
+			"const_key": "ATTR_CRIT_FROM_LUCK",
+			"const_name": "幸运转暴击率公式",
+			"value_type": "json",
+			"value": "{\"source_attr\":\"luck\",\"C\":0.005,\"A\":0.0006,\"B\":0.00001,\"level_index\":\"level-1\",\"round\":\"none\",\"min\":0,\"soft_cap\":0.35}",
+			"unit": "倍率",
+			"category": "attr_formula",
+			"used_by": "crit_rate",
+			"note": "base_crit_rate = luck*C + (level-1)*A + (level-1)^2*B"
+		},
+		{
+			"const_key": "BTL_DEF_K",
+			"const_name": "防御递减常量K",
+			"value_type": "float",
+			"value": 80,
+			"unit": "点",
+			"category": "damage",
+			"used_by": "伤害结算",
+			"note": "防御比例 = target_def / (target_def + K)"
+		}
+	]
+}

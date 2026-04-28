@@ -1,8 +1,5 @@
 [gd_scene format=3 uid="uid://cjt1liutywsqn"]
 
-[ext_resource type="Theme" uid="uid://fhx7mbq7kydo" path="res://art/theme/prototype.tres" id="1_o06ul"]
-[ext_resource type="Script" uid="uid://dmvp48w485m5y" path="res://scripts/battle_module/UI/ui_battle_menu.gd" id="2_rfo8n"]
-[ext_resource type="Theme" uid="uid://bedvhxxhxsjc3" path="res://art/theme/label_style.tres" id="3_gqnse"]
 [ext_resource type="PackedScene" uid="uid://nuc6n4occfmy" path="res://scenes/battle/ui/skill_sequence_popup.tscn" id="4_rfo8n"]
 
 [node name="BattleMenu" type="Panel" unique_id=162207502]
@@ -10,8 +7,6 @@ offset_left = 658.0
 offset_top = 181.0
 offset_right = 1118.0
 offset_bottom = 701.0
-theme = ExtResource("1_o06ul")
-script = ExtResource("2_rfo8n")
 
 [node name="title" type="Label" parent="." unique_id=861783333]
 layout_mode = 0
@@ -19,7 +14,6 @@ offset_left = 32.0
 offset_top = 24.0
 offset_right = 428.0
 offset_bottom = 80.0
-theme = ExtResource("3_gqnse")
 theme_override_font_sizes/font_size = 32
 text = "标题"
 horizontal_alignment = 1
@@ -31,13 +25,11 @@ offset_left = 24.0
 offset_top = 96.0
 offset_right = 436.0
 offset_bottom = 484.0
-theme = ExtResource("1_o06ul")
 theme_override_constants/separation = 8
 
 [node name="BattleMenuItemTemplate" type="Button" parent="MenuItemRoot" unique_id=1604805538]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
-theme = ExtResource("1_o06ul")
 
 [node name="Content" type="MarginContainer" parent="MenuItemRoot/BattleMenuItemTemplate" unique_id=253896818]
 layout_mode = 1

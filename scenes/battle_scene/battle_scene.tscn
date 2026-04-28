@@ -6,7 +6,6 @@
 [sub_resource type="Environment" id="Environment_joy3q"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v2pga"]
-load_path = "res://.godot/imported/dungeon_texture.png-3710918cd77a4c196421af86304b86c4.s3tc.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sso7k"]
 resource_name = "texture"
@@ -286,7 +285,6 @@ item/5/navigation_layers = 1
 size = Vector3(16.938477, 0.1, 12.729828)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dkakg"]
-load_path = "res://.godot/imported/Swordsman_lvl1_Run_Attack_with_shadow.png-3a4ca10305623300991c9cb6e49ef32a.s3tc.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gpgm2"]
 atlas = SubResource("CompressedTexture2D_dkakg")
@@ -321,7 +319,6 @@ atlas = SubResource("CompressedTexture2D_dkakg")
 region = Rect2(448, 128, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_e2rkv"]
-load_path = "res://.godot/imported/Swordsman_lvl1_Run_with_shadow.png-d1b878a78900fe43eec0b7a0a97a0df4.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_klesn"]
 atlas = SubResource("CompressedTexture2D_e2rkv")
@@ -356,7 +353,6 @@ atlas = SubResource("CompressedTexture2D_e2rkv")
 region = Rect2(0, 64, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4jw7k"]
-load_path = "res://.godot/imported/Swordsman_lvl1_Walk_Attack_with_shadow.png-abb4c958b0b0151c9c4d199c611f4937.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w0yvp"]
 atlas = SubResource("CompressedTexture2D_4jw7k")
@@ -383,7 +379,6 @@ atlas = SubResource("CompressedTexture2D_4jw7k")
 region = Rect2(320, 128, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1net8"]
-load_path = "res://.godot/imported/Swordsman_lvl1_Walk_with_shadow.png-126880baeb35c7c9e99ab6d02cc5b850.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vtxtj"]
 atlas = SubResource("CompressedTexture2D_1net8")
@@ -410,7 +405,6 @@ atlas = SubResource("CompressedTexture2D_1net8")
 region = Rect2(320, 64, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sw16a"]
-load_path = "res://.godot/imported/Swordsman_lvl1_attack_with_shadow.png-e780dd2d5c3a90ddb91f3e59b65856aa.s3tc.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0t5p"]
 atlas = SubResource("CompressedTexture2D_sw16a")
@@ -445,7 +439,6 @@ atlas = SubResource("CompressedTexture2D_sw16a")
 region = Rect2(448, 128, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0qxrm"]
-load_path = "res://.godot/imported/Swordsman_lvl1_Death_with_shadow.png-81d54c80eeb33eb81a76ae732409aa0f.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4dlbe"]
 atlas = SubResource("CompressedTexture2D_0qxrm")
@@ -476,7 +469,6 @@ atlas = SubResource("CompressedTexture2D_0qxrm")
 region = Rect2(384, 128, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_buq4q"]
-load_path = "res://.godot/imported/Swordsman_lvl1_Hurt_with_shadow.png-8d956dc2f225ebdc95792950c350d8c5.s3tc.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3af0p"]
 atlas = SubResource("CompressedTexture2D_buq4q")
@@ -499,7 +491,6 @@ atlas = SubResource("CompressedTexture2D_buq4q")
 region = Rect2(256, 128, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lox8n"]
-load_path = "res://.godot/imported/Swordsman_lvl1_Idle_with_shadow.png-e3017c9183a5fb7cf5c47a3f2834d70b.s3tc.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oq7f1"]
 atlas = SubResource("CompressedTexture2D_lox8n")
@@ -530,7 +521,6 @@ atlas = SubResource("CompressedTexture2D_lox8n")
 region = Rect2(704, 0, 64, 64)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jgikl"]
-load_path = "res://.godot/imported/Idle.png-b617ca088739b6f7c04873c0bdab11a1.s3tc.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dmgot"]
 atlas = SubResource("CompressedTexture2D_jgikl")
