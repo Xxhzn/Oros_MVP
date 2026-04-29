@@ -25,4 +25,4 @@ func from_dict(data: Dictionary) -> BattleData:
 	battle_data.unit = Util.safe_get(data, "unit", "")
 	battle_data.category = Util.safe_get(data, "category", "")
 	battle_data.desc = Util.safe_get(data, "note", "")
-	return battle_data
+	return battle_data 

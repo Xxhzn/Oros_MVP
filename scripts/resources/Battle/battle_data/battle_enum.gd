@@ -30,6 +30,7 @@ enum EffectType {
 	SILENCE,    # 沉默
 	ROOT,       # 定身
 	REOURCE,	# 资源
+	BARRIER,	# 护盾
 }
 
 # 值类型枚举
