@@ -10,7 +10,6 @@
             "skill_2_id": "wpn_xis_s2_frenzy",
             "skill_3_id": "wpn_xis_s3_redeye",
             "skill_4_id": "wpn_xis_s4_fate_thread",
-            "bonus_attr_key_list": "phys_atk|speed",
             "bonus_curve_json": "[{\"attr\":\"phys_atk\",\"lv1\":0.08,\"A\":0.001,\"B\":0,\"min\":0,\"max\":0.15},{\"attr\":\"speed\",\"lv1\":0.05,\"A\":0.0005,\"B\":0,\"min\":0,\"max\":0.10}]",
             "note": "西斯提供物攻与速度加成"
         },
@@ -24,7 +23,6 @@
             "skill_2_id": "wpn_adon_s2_order",
             "skill_3_id": "wpn_adon_s3_ragnarok",
             "passive_skill_ids": "wpn_adon_passive_tremor",
-            "bonus_attr_key_list": "phys_def|mag_def",
             "bonus_curve_json": "[{\"attr\":\"phys_def\",\"lv1\":0.12,\"A\":0.001,\"B\":0,\"min\":0,\"max\":0.22},{\"attr\":\"mag_def\",\"lv1\":0.12,\"A\":0.001,\"B\":0,\"min\":0,\"max\":0.22}]",
             "note": "亚顿提供双防加成"
         },
@@ -38,7 +36,6 @@
             "skill_2_id": "wpn_kasha_s2_freeze",
             "skill_3_id": "wpn_kasha_s3_thunderstorm",
             "skill_4_id": "wpn_kasha_s4_element_feast",
-            "bonus_attr_key_list": "mag_atk|mag_def",
             "bonus_curve_json": "[{\"attr\":\"mag_atk\",\"lv1\":0.10,\"A\":0.001,\"B\":0,\"min\":0,\"max\":0.18},{\"attr\":\"mag_def\",\"lv1\":0.06,\"A\":0.0005,\"B\":0,\"min\":0,\"max\":0.12}]",
             "note": "卡沙魔攻和魔防加成"
         },
@@ -52,7 +49,6 @@
             "skill_2_id": "wpn_shadow_s2_skimming",
             "skill_3_id": "wpn_shadow_s3_night_owl",
             "skill_4_id": "wpn_shadow_s4_shadowless_net",
-            "bonus_attr_key_list": "crit_rate",
             "bonus_curve_json": "[{\"attr\":\"crit_rate\",\"lv1\":0.20,\"A\":0,\"B\":0,\"min\":0.20,\"max\":0.30,\"step_rule\":[{\"level_min\":1,\"level_max\":24,\"value\":0.20},{\"level_min\":25,\"level_max\":49,\"value\":0.25},{\"level_min\":50,\"level_max\":50,\"value\":0.30}]}]",
             "note": "影刃采用离散阶梯暴击加成"
         },
@@ -66,7 +62,6 @@
             "skill_2_id": "wpn_mir_s2_wrath",
             "skill_3_id": "wpn_mir_s3_silence",
             "skill_4_id": "wpn_mir_s4_rain",
-            "bonus_attr_key_list": "max_hp|mag_atk",
             "bonus_curve_json": "[{\"attr\":\"max_hp\",\"lv1\":0.10,\"A\":0.001,\"B\":0,\"min\":0,\"max\":0.20},{\"attr\":\"mag_atk\",\"lv1\":0.08,\"A\":0.001,\"B\":0,\"min\":0,\"max\":0.16}]",
             "note": "米尔提供HP与魔攻加成"
         },
@@ -80,7 +75,6 @@
             "skill_2_id": "wpn_hammer_s2_soulquake",
             "skill_3_id": "wpn_hammer_s3_mountain_collapse",
             "skill_4_id": "wpn_hammer_s4_anchor",
-            "bonus_attr_key_list": "phys_def|phys_atk",
             "bonus_curve_json": "[{\"attr\":\"phys_def\",\"lv1\":0.30,\"A\":0,\"B\":0,\"min\":0.30,\"max\":0.30},{\"attr\":\"phys_atk\",\"lv1\":0.15,\"A\":0,\"B\":0,\"min\":0.15,\"max\":0.15}]",
             "note": "镇锤提供物防与物攻加成"
         }
