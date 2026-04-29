@@ -12,6 +12,7 @@ class_name CharacterData
 # 角色描述
 @export_multiline var description: String = ""
 
+
 ## 角色在战斗中的视觉表现
 @export_group("视觉表现")
 # 角色动画库

@@ -1,5 +1,5 @@
 extends Resource
-class_name BattleData
+class_name BattleDataScene
 
 ## 战斗标题
 @export var battle_title: String = "战斗开始"

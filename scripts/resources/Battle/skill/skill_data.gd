@@ -7,6 +7,10 @@ class_name SkillData
 @export var skill_name: StringName = ""
 # 技能描述
 @export_multiline var description: String = ""
+# 技能归属
+@export var source_type: String = ""
+# 归属ID
+@export var source_id: String = ""
 # 技能标签
 @export var tag_type: BattleEnum.TagType = BattleEnum.TagType.NORMAL
 # 目标类型
@@ -22,7 +26,7 @@ class_name SkillData
 # 基础打断值
 @export var base_interrupt: int = 0
 # 是否可被打断
-@export var can_be_interrupt: bool = false
+@export var can_be_interrupted: bool = false
 # 被打断需要的打断值
 @export var int_thres: int = 0
 # 战势值消耗
@@ -45,7 +49,6 @@ class_name SkillData
 @export var hp_cost: int = 0  
 # 技能攻击次数
 @export var attack_count : int
-
 # 行动优先级
 @export var priority: int = 0 
 # 学习等级要求

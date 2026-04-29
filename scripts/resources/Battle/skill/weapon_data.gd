@@ -16,8 +16,10 @@ enum WeaponType {
 
 @export var weapon_id: StringName = &"new_weap" 				## 内部ID，用StringName效率略高
 @export var weapon_name: String = "武器"       					## UI显示名称
-@export var skill_type: WeaponType = WeaponType.NONE			## 武器类型
+@export var weapon_type: WeaponType = WeaponType.NONE			## 武器类型
 @export_multiline var description: String = "武器描述..." 		## UI显示描述
+@export var bonus_attr_list: Array[String] = []					## 器灵额外附加属性
+@export var bonus_attr_curve: Array[String] = []				## 器灵额外增加属性的数值公式（待定数据类型）
 
 @export_group("视觉与音效")
 @export var icon: Texture2D = null 								## 武器图标
