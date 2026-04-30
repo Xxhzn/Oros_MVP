@@ -1,3 +1,3 @@
 extends Resource
 
-class_name WeaponData
+class_name EffectData

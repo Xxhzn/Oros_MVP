@@ -29,15 +29,18 @@ enum EffectType {
 	STUN,       # 眩晕
 	SILENCE,    # 沉默
 	ROOT,       # 定身
-	REOURCE,	# 资源
+	RESOURCE,	# 资源
+	IMMUNE # 免疫
 }
 
 # 值类型枚举
 enum ValueType {
 	NONE,
-	FIXED,          # 固定值
-	PERCENT,        # 百分比
-	ATTRIBUTE_BASED # 基于属性
+	FIXED,           # 固定值
+	PERCENT,         # 百分比
+	ATTRIBUTE_BASED, # 基于属性
+	FORMULA,         # 公式表达式或公式key
+	CONTEXT          # 从战斗上下文读取
 }
 
 # 技能类型
@@ -61,7 +64,8 @@ enum TagType {
 enum TargetType {
 	NONE,                   # 无需目标 (例如自身buff)
 	ENEMY_SINGLE,           # 敌方单体
-	ENEMY_ALL,              # 敌方全体
+	ENEMY_ALL_INC_SELF,     # 敌方全体 (含自己)
+	ENEMY_ALL,              # 敌方全体 （不含自己）
 	ALLY_SINGLE,            # 我方单体 (不含自己)
 	ALLY_ALL,               # 我方全体 (不含自己)
 	SELF,                   # 施法者自己
