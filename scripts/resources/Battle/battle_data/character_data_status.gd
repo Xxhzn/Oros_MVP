@@ -9,7 +9,7 @@ class_name CharacterDataStatus
 # 状态效果
 @export var status_type: BattleEnum.EffectType = BattleEnum.EffectType.DAMAGE
 # 效果
-@export var attribute: String = "sta" 
+@export var status_rule_json: String = "sta" 
 # 数值
 @export var value: float = 0.3
 # 数值类型
