@@ -12,8 +12,7 @@
 			"clear_event": "on_expire",
 			"consume_on_trigger": false,
 			"trigger_event": "while_status_active",
-			"status_rule_json": "{\"source\":\"mob_int_buff_01\",\"damage_dealt_bonus_rate\":0.1}",
-			"note": "敌人旧原型状态：自身下一次落地前造成伤害提高10%。若敌人技能已重做，可删除。"
+			"note": "自身下一次落地前造成伤害提高10%。"
 		},
 		{
 			"status_id": "pressure_step",
@@ -28,9 +27,7 @@
 			"consume_on_trigger": true,
 			"trigger_event": "on_owner_next_op_start",
 			"trigger_limit": 1,
-			"trigger_effect_key": "pressure_step_force_lock",
-			"status_rule_json": "{\"next_op_shift_tu\":-10,\"forced_skill_id\":\"mob_ctl_lock_01\"}",
-			"note": "牵制教学怪旧状态：下一操作节点提前10TU，并锁定下次行动为锁步。"
+			"note": "下一操作节点提前10TU，并锁定下次行动为锁步。"
 		},
 		{
 			"status_id": "iron_wall",
@@ -57,7 +54,6 @@
 			"clear_event": "on_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "while_status_active",
-			"status_rule_json": "{\"damage_taken_bonus_rate\":0.5}",
 			"note": "目标受到伤害提高50%，持续3次状态持有者操作节点开始。"
 		},
 		{
@@ -73,8 +69,6 @@
 			"clear_event": "on_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "on_receive_damage",
-			"trigger_effect_key": "incoming_damage_bp_plus",
-			"status_rule_json": "{\"incoming_bp_delta\":1}",
 			"note": "目标每段受到伤害时，额外获得1点BP；持续2次状态持有者操作节点开始。"
 		},
 		{
@@ -90,7 +84,6 @@
 			"clear_event": "on_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "on_incoming_attack_check",
-			"status_rule_json": "{\"evasion_rate\":0.5}",
 			"note": "全体友方获得50%闪避率，持续2次状态持有者操作节点开始。"
 		},
 		{
@@ -104,10 +97,8 @@
 			"expire_event": "next_incoming_attack_or_debuff",
 			"clear_event": "on_trigger",
 			"consume_on_trigger": true,
-			"trigger_event": "on_receive_damage_or_debuff",
+			"trigger_event": "on_receive_damage",
 			"trigger_limit": 1,
-			"trigger_effect_key": "veto_guard_negate_and_barrier",
-			"status_rule_json": "{\"negate_damage\":true,\"negate_debuff\":true,\"barrier_rate_from_blocked_base_damage\":0.2,\"barrier_status_id\":\"veto_barrier\"}",
 			"note": "完全免疫下一次受到的伤害及负面效果；若否决了伤害，则生成基础伤害*0.2的护盾。"
 		},
 		{
@@ -122,8 +113,6 @@
 			"clear_event": "on_barrier_break",
 			"consume_on_trigger": false,
 			"trigger_event": "on_receive_damage",
-			"trigger_effect_key": "barrier_absorb_damage",
-			"status_rule_json": "{\"barrier_value_source\":\"veto_guard_blocked_base_damage*0.2\"}",
 			"note": "由否决成功抵挡伤害后生成；抵挡量由触发时写入运行时状态。"
 		},
 		{
@@ -139,8 +128,6 @@
 			"clear_event": "barrier_value_zero_or_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "on_receive_damage",
-			"trigger_effect_key": "barrier_absorb_damage",
-			"status_rule_json": "{\"barrier_value_source\":\"(pre_final_phys_def+pre_final_mag_def+pre_hp_current)*3\",\"source_skill_id\":\"wpn_adon_s3_ragnarok\"}",
 			"note": "诸神黄昏创建的墙体，抵挡敌方攻击；持续3次状态持有者操作节点开始或抵挡量耗尽。"
 		},
 		{
@@ -156,8 +143,6 @@
 			"clear_event": "on_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "on_apply,on_expire",
-			"trigger_effect_key": "ragnarok_stat_snapshot_restore",
-			"status_rule_json": "{\"on_apply\":\"snapshot_phys_def_mag_def\",\"on_expire\":\"restore_snapshot_stats\"}",
 			"note": "记录诸神黄昏期间双防归零与属性转换；状态结束时恢复快照，防止永久丢失防御。"
 		},
 		{
@@ -185,8 +170,6 @@
 			"consume_on_trigger": true,
 			"trigger_event": "on_receive_hit",
 			"trigger_limit": 1,
-			"trigger_effect_key": "incoming_bp_plus_by_stack",
-			"status_rule_json": "{\"incoming_bp_delta_expr\":\"stack_count\",\"active_after_event\":\"on_stagger_recover\"}",
 			"note": "目标从硬直恢复后，下次受到攻击的BP值+状态层数；受到攻击后清除。"
 		},
 		{
@@ -216,8 +199,6 @@
 			"consume_on_trigger": true,
 			"trigger_event": "on_physical_attack_roll_crit",
 			"trigger_limit": 1,
-			"trigger_effect_key": "override_crit_rate",
-			"status_rule_json": "{\"crit_rate_override\":1}",
 			"note": "下一次物理攻击暴击率强制设为100%，触发后清除。"
 		},
 		{
@@ -233,8 +214,6 @@
 			"clear_event": "on_zone_end",
 			"consume_on_trigger": false,
 			"trigger_event": "on_owner_pass_op_or_land_node",
-			"trigger_effect_key": "kill_zone_followup",
-			"status_rule_json": "{\"zone_anchor_ref\":\"owner_current_op\",\"zone_length_tu\":20,\"damage_type\":\"physical\",\"damage_attr_ref\":\"final_phys_atk\",\"dmg_rate\":0.8,\"add_status_id\":\"dark_mark\",\"add_status_stack\":1,\"bp_value\":1,\"trigger_nodes\":[\"owner_op\",\"owner_land\"]}",
 			"note": "罗网无影创建的区间状态；目标在杀阵区间内每次经过自身操作节点或落地节点，触发80%物攻追击、1层暗痕、1点BP。"
 		},
 		{
@@ -250,7 +229,6 @@
 			"clear_event": "on_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "while_status_active",
-			"status_rule_json": "{\"action_lock_key\":\"imprisoned\"}",
 			"note": "米尔沉默成功打断后附加；目标10TU内被禁锢，不能执行正常行动。"
 		},
 		{
@@ -266,8 +244,6 @@
 			"clear_event": "on_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "on_deal_damage",
-			"trigger_effect_key": "heal_all_allies_by_damage_pct",
-			"status_rule_json": "{\"heal_rate_of_damage\":0.3,\"heal_scope\":\"all_allies\"}",
 			"note": "持续3次状态持有者操作节点开始；状态持有者每次造成伤害的30%转化为全体友方治疗。"
 		},
 		{
@@ -283,9 +259,7 @@
 			"clear_event": "on_duration_end",
 			"consume_on_trigger": false,
 			"trigger_event": "on_receive_physical_damage_or_bp",
-			"trigger_effect_key": "anvil_splash",
-			"status_rule_json": "{\"splash_scope\":\"other_enemies\",\"true_damage_rate\":0.5,\"bp_rate\":1.0}",
-			"note": "目标受到的物理伤害和BP产生冲击波：50%真实伤害与100%BP扩散给其他敌方单位，持续30TU。"
+			"note": "目标受到的物理伤害和BP产生冲击波：50%伤害与100%BP扩散给其他敌方单位，持续30TU。"
 		},
 		{
 			"status_id": "anchor",
@@ -299,7 +273,6 @@
 			"clear_event": "on_next_non_normal_skill_land",
 			"consume_on_trigger": false,
 			"trigger_event": "while_status_active",
-			"status_rule_json": "{\"phys_damage_reduce_rate\":0.3,\"time_shift_immune\":true,\"immune_time_shift_source\":\"enemy\",\"immune_time_shift_dir\":\"backward\",\"next_skill_startup_delta_tu\":-10,\"startup_delta_skill_filter\":[\"wpn_hammer_s1_crack_rock\",\"wpn_hammer_s2_soulquake\",\"wpn_hammer_s3_mountain_collapse\"]}",
 			"note": "镇锤特色状态：受到物理伤害降低30%；免疫敌方造成的时间轴向后平移；下一次碎岩/震魂/崩山释放速度-10TU，落地后失效。"
 		}
 	]
